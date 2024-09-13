@@ -123,7 +123,7 @@ TEST(IsPrimeTest, Trivial) {
   EXPECT_FALSE(IsPrime(0));
   EXPECT_FALSE(IsPrime(1));
   EXPECT_TRUE(IsPrime(2));
-  EXPECT_TRUE(IsPrime(3));
+  EXPECT_TRUE(IsPrime(5));
 }
 
 // Tests positive input.
