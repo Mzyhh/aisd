@@ -1,8 +1,4 @@
-//
-// Created by mrak1990 on 13.09.2024.
-//
-
-#include "sorts.h"
+#include "sort.h"
 
 void bubble_sort(int *data, unsigned int n) {
     for (int i = 0; i < n; ++i) {
@@ -14,6 +10,10 @@ void bubble_sort(int *data, unsigned int n) {
             }
         }
     }
+}
+
+void insertion_sort(int *data, unsigned int n) {
+
 }
 
 void selection_sort(int *data, unsigned int n) {
