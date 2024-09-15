@@ -1,201 +1,262 @@
-#include "gtest/gtest.h"
-#include "gmock/gmock.h"
+#include <random>
+
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_vector.hpp>
+#include "catch2/benchmark/catch_benchmark.hpp"
 
 extern "C" {
 #include "sort.h"
 }
 
-TEST(BubbleSort, EmptyArray) {
-    int a[] = {};
-    bubble_sort(a, 0);
-    EXPECT_THAT(std::vector(a, a + 0), testing::IsEmpty());
+TEST_CASE("Works for an empty array", "[sort]") {
+    int n = 0;
+    int data[] = {};
+
+    SECTION("bubble sort") {
+        bubble_sort(data, n);
+    }
+    SECTION("insertion sort") {
+        insertion_sort(data, n);
+    }
+    SECTION("selection sort") {
+        selection_sort(data, n);
+    }
+    SECTION("merge sort") {
+        merge_sort(data, n);
+    }
+
+    auto actual = std::vector(data, data + n);
+    std::vector<int> expected = { };
+    REQUIRE_THAT(actual, Catch::Matchers::Equals(expected));
 }
 
-TEST(BubbleSort, SingleElement) {
-    int a[] = {10};
-    bubble_sort(a, 1);
-    EXPECT_THAT(std::vector(a, a + 1), testing::ElementsAre(10));
+TEST_CASE("Works for an array with one element", "[sort]") {
+    int n = 1;
+    int data[] = {10};
+
+    SECTION("bubble sort") {
+        bubble_sort(data, n);
+    }
+    SECTION("insertion sort") {
+        insertion_sort(data, n);
+    }
+    SECTION("selection sort") {
+        selection_sort(data, n);
+    }
+    SECTION("merge sort") {
+        merge_sort(data, n);
+    }
+
+    auto actual = std::vector(data, data + n);
+    std::vector expected = {10};
+    REQUIRE_THAT(actual, Catch::Matchers::Equals(expected));
 }
 
-TEST(BubbleSort, AlreadySorted) {
-    int a[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    bubble_sort(a, 10);
-    EXPECT_THAT(std::vector(a, a + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+TEST_CASE("Works for an already sorted array", "[sort]") {
+    int n = 10;
+    int data[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+    SECTION("bubble sort") {
+        bubble_sort(data, n);
+    }
+    SECTION("insertion sort") {
+        insertion_sort(data, n);
+    }
+    SECTION("selection sort") {
+        selection_sort(data, n);
+    }
+    SECTION("merge sort") {
+        merge_sort(data, n);
+    }
+
+    auto actual = std::vector(data, data + n);
+    std::vector expected = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    REQUIRE_THAT(actual, Catch::Matchers::Equals(expected));
 }
 
-TEST(BubbleSort, AlreadyDescSorted) {
-    int a[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
-    bubble_sort(a, 10);
-    EXPECT_THAT(std::vector(a, a + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+TEST_CASE("Works for an array already sorted in reverse order", "[sort]") {
+    int n = 10;
+    int data[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+
+    SECTION("bubble sort") {
+        bubble_sort(data, n);
+    }
+    SECTION("insertion sort") {
+        insertion_sort(data, n);
+    }
+    SECTION("selection sort") {
+        selection_sort(data, n);
+    }
+    SECTION("merge sort") {
+        merge_sort(data, n);
+    }
+
+    auto actual = std::vector(data, data + n);
+    std::vector expected = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    REQUIRE_THAT(actual, Catch::Matchers::Equals(expected));
 }
 
-TEST(BubbleSort, Shuffled1) {
-    int a[] = {1, 10, 5, 9, 6, 7, 4, 8, 2, 3};
-    bubble_sort(a, 10);
-    EXPECT_THAT(std::vector(a, a + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-}
+TEST_CASE("Works for the shuffled array #1", "[sort]") {
+    int n = 10;
+    int data[] = {1, 10, 5, 9, 6, 7, 4, 8, 2, 3};
 
-TEST(BubbleSort, Shuffled2) {
-    int a[] = {5, 7, 2, 9, 6, 10, 8, 1, 4, 3};
-    bubble_sort(a, 10);
-    EXPECT_THAT(std::vector(a, a + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-}
+    SECTION("bubble sort") {
+        bubble_sort(data, n);
+    }
+    SECTION("insertion sort") {
+        insertion_sort(data, n);
+    }
+    SECTION("selection sort") {
+        selection_sort(data, n);
+    }
+    SECTION("merge sort") {
+        merge_sort(data, n);
+    }
 
-TEST(BubbleSort, Repeat) {
-    int a[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-    bubble_sort(a, 10);
-    EXPECT_THAT(std::vector(a, a + 10), testing::Contains(1).Times(10));
-}
-
-TEST(BubbleSort, WithCollisions) {
-    int a[] = {1, 5, 5, 5, 5, 7, 4, 8, 2, 3};
-    bubble_sort(a, 10);
-    EXPECT_THAT(std::vector(a, a + 10), testing::ElementsAre(1, 2, 3, 4, 5, 5, 5, 5, 7, 8));
-}
-
-
-TEST(InsertionSort, EmptyArray) {
-    int a[] = {};
-    insertion_sort(a, 0);
-    EXPECT_THAT(std::vector(a, a + 0), testing::IsEmpty());
-}
-
-TEST(InsertionSort, SingleElement) {
-    int a[] = {10};
-    insertion_sort(a, 1);
-    EXPECT_THAT(std::vector(a, a + 1), testing::ElementsAre(10));
-}
-
-TEST(InsertionSort, AlreadySorted) {
-    int a[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    insertion_sort(a, 10);
-    EXPECT_THAT(std::vector(a, a + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-}
-
-TEST(InsertionSort, AlreadyDescSorted) {
-    int a[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
-    insertion_sort(a, 10);
-    EXPECT_THAT(std::vector(a, a + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-}
-
-TEST(InsertionSort, Shuffled1) {
-    int a[] = {1, 10, 5, 9, 6, 7, 4, 8, 2, 3};
-    insertion_sort(a, 10);
-    EXPECT_THAT(std::vector(a, a + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-}
-
-TEST(InsertionSort, Shuffled2) {
-    int a[] = {5, 7, 2, 9, 6, 10, 8, 1, 4, 3};
-    insertion_sort(a, 10);
-    EXPECT_THAT(std::vector(a, a + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-}
-
-TEST(InsertionSort, Repeat) {
-    int a[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-    insertion_sort(a, 10);
-    EXPECT_THAT(std::vector(a, a + 10), testing::Contains(1).Times(10));
-}
-
-TEST(InsertionSort, WithCollisions) {
-    int a[] = {1, 5, 5, 5, 5, 7, 4, 8, 2, 3};
-    insertion_sort(a, 10);
-    EXPECT_THAT(std::vector(a, a + 10), testing::ElementsAre(1, 2, 3, 4, 5, 5, 5, 5, 7, 8));
-}
-
-
-TEST(SelectionSort, EmptyArray) {
-    int a[] = {};
-    selection_sort(a, 0);
-    EXPECT_THAT(std::vector(a, a + 0), testing::IsEmpty());
-}
-
-TEST(SelectionSort, SingleElement) {
-    int a[] = {10};
-    selection_sort(a, 1);
-    EXPECT_THAT(std::vector(a, a + 1), testing::ElementsAre(10));
-}
-
-TEST(SelectionSort, AlreadySorted) {
-    int a[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    selection_sort(a, 10);
-    EXPECT_THAT(std::vector(a, a + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-}
-
-TEST(SelectionSort, AlreadyDescSorted) {
-    int a[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
-    selection_sort(a, 10);
-    EXPECT_THAT(std::vector(a, a + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-}
-
-TEST(SelectionSort, Shuffled1) {
-    int a[] = {1, 10, 5, 9, 6, 7, 4, 8, 2, 3};
-    selection_sort(a, 10);
-    EXPECT_THAT(std::vector(a, a + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-}
-
-TEST(SelectionSort, Shuffled2) {
-    int a[] = {5, 7, 2, 9, 6, 10, 8, 1, 4, 3};
-    selection_sort(a, 10);
-    EXPECT_THAT(std::vector(a, a + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-}
-
-TEST(SelectionSort, Repeat) {
-    int a[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-    selection_sort(a, 10);
-    EXPECT_THAT(std::vector(a, a + 10), testing::Contains(1).Times(10));
-}
-
-TEST(SelectionSort, WithCollisions) {
-    int a[] = {1, 5, 5, 5, 5, 7, 4, 8, 2, 3};
-    selection_sort(a, 10);
-    EXPECT_THAT(std::vector(a, a + 10), testing::ElementsAre(1, 2, 3, 4, 5, 5, 5, 5, 7, 8));
+    auto actual = std::vector(data, data + n);
+    std::vector expected = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    REQUIRE_THAT(actual, Catch::Matchers::Equals(expected));
 }
 
 
-TEST(MergeSort, EmptyArray) {
-    int a[] = {};
-    int* res = merge_sort(a, 0);
-    EXPECT_THAT(std::vector(res, res + 0), testing::IsEmpty());
+TEST_CASE("Works for the shuffled array #2", "[sort]") {
+    int n = 10;
+    int data[] = {5, 7, 2, 9, 6, 10, 8, 1, 4, 3};
+
+    SECTION("bubble sort") {
+        bubble_sort(data, n);
+    }
+    SECTION("insertion sort") {
+        insertion_sort(data, n);
+    }
+    SECTION("selection sort") {
+        selection_sort(data, n);
+    }
+    SECTION("merge sort") {
+        merge_sort(data, n);
+    }
+
+    auto actual = std::vector(data, data + n);
+    std::vector expected = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    REQUIRE_THAT(actual, Catch::Matchers::Equals(expected));
 }
 
-TEST(MergeSort, SingleElement) {
-    int a[] = {10};
-    int* res = merge_sort(a, 1);
-    EXPECT_THAT(std::vector(res, res + 1), testing::ElementsAre(10));
+TEST_CASE("Works for an array of equal numbers", "[sort]") {
+    int n = 10;
+    int data[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+
+    SECTION("bubble sort") {
+        bubble_sort(data, n);
+    }
+    SECTION("insertion sort") {
+        insertion_sort(data, n);
+    }
+    SECTION("selection sort") {
+        selection_sort(data, n);
+    }
+    SECTION("merge sort") {
+        merge_sort(data, n);
+    }
+
+    auto actual = std::vector(data, data + n);
+    auto expected = std::vector(10, 1);
+    REQUIRE_THAT(actual, Catch::Matchers::Equals(expected));
 }
 
-TEST(MergeSort, AlreadySorted) {
-    int a[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    int* res = merge_sort(a, 10);
-    EXPECT_THAT(std::vector(res, res + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+TEST_CASE("Works for an array with some equal numbers", "[sort]") {
+    int n = 10;
+    int data[] = {1, 5, 5, 5, 5, 7, 4, 8, 5, 3};
+
+    SECTION("bubble sort") {
+        bubble_sort(data, n);
+    }
+    SECTION("insertion sort") {
+        insertion_sort(data, n);
+    }
+    SECTION("selection sort") {
+        selection_sort(data, n);
+    }
+    SECTION("merge sort") {
+        merge_sort(data, n);
+    }
+
+    auto actual = std::vector(data, data + n);
+    std::vector expected = {1, 3, 4, 5, 5, 5, 5, 5, 7, 8};
+    REQUIRE_THAT(actual, Catch::Matchers::Equals(expected));
 }
 
-TEST(MergeSort, AlreadyDescSorted) {
-    int a[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
-    int* res = merge_sort(a, 10);
-    EXPECT_THAT(std::vector(res, res + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+TEST_CASE("Works for big random vector", "[sort]") {
+    constexpr size_t vec_size = 1000;
+
+    std::random_device rd;
+    std::mt19937 mersenne_engine {rd()};
+    std::uniform_int_distribution distrib(-1000, 1000);
+    auto gen = [&](){
+        return distrib(mersenne_engine);
+    };
+    std::vector<int> vec(vec_size);
+    std::generate(vec.begin(), vec.end(), gen);
+
+    auto expected = vec;
+    std::sort(expected.begin(), expected.end());
+
+    SECTION("bubble sort") {
+        bubble_sort(vec.data(), static_cast<int>(vec.size()));
+    }
+    SECTION("insertion sort") {
+        insertion_sort(vec.data(), static_cast<int>(vec.size()));
+    }
+    SECTION("selection sort") {
+        selection_sort(vec.data(), static_cast<int>(vec.size()));
+    }
+    SECTION("merge sort") {
+        merge_sort(vec.data(), static_cast<int>(vec.size()));
+    }
+
+    auto actual = vec;
+    REQUIRE_THAT(actual, Catch::Matchers::Equals(expected));
 }
 
-TEST(MergeSort, Shuffled1) {
-    int a[] = {1, 10, 5, 9, 6, 7, 4, 8, 2, 3};
-    int* res = merge_sort(a, 10);
-    EXPECT_THAT(std::vector(res, res + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-}
+TEST_CASE("Benchmarks", "[sort][.benchmark]") {
+    constexpr size_t vec_size = 10000;
 
-TEST(MergeSort, Shuffled2) {
-    int a[] = {5, 7, 2, 9, 6, 10, 8, 1, 4, 3};
-    int* res = merge_sort(a, 10);
-    EXPECT_THAT(std::vector(res, res + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-}
+    std::random_device rd;
+    std::mt19937 mersenne_engine {rd()};
+    std::uniform_int_distribution distrib(-1000, 1000);
+    auto gen = [&](){
+        return distrib(mersenne_engine);
+    };
 
-TEST(MergeSort, Repeat) {
-    int a[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-    int* res = merge_sort(a, 10);
-    EXPECT_THAT(std::vector(res, res + 10), testing::Contains(1).Times(10));
-}
-
-TEST(MergeSort, WithCollisions) {
-    int a[] = {1, 5, 5, 5, 5, 7, 4, 8, 2, 3};
-    int* res = merge_sort(a, 10);
-    EXPECT_THAT(std::vector(res, res + 10), testing::ElementsAre(1, 2, 3, 4, 5, 5, 5, 5, 7, 8));
+    BENCHMARK_ADVANCED("bubble sort")(Catch::Benchmark::Chronometer meter) {
+        std::vector<int> vec(vec_size);
+        std::generate(vec.begin(), vec.end(), gen);
+        meter.measure([&vec] {
+            bubble_sort(vec.data(), static_cast<int>(vec.size()));
+            return vec;
+        });
+    };
+    BENCHMARK_ADVANCED("insertion sort")(Catch::Benchmark::Chronometer meter) {
+        std::vector<int> vec(vec_size);
+        std::generate(vec.begin(), vec.end(), gen);
+        meter.measure([&vec] {
+            insertion_sort(vec.data(), static_cast<int>(vec.size()));
+            return vec;
+        });
+    };
+    BENCHMARK_ADVANCED("selection sort")(Catch::Benchmark::Chronometer meter) {
+        std::vector<int> vec(vec_size);
+        std::generate(vec.begin(), vec.end(), gen);
+        meter.measure([&vec] {
+            selection_sort(vec.data(), static_cast<int>(vec.size()));
+            return vec;
+        });
+    };
+    BENCHMARK_ADVANCED("merge sort")(Catch::Benchmark::Chronometer meter) {
+        std::vector<int> vec(vec_size);
+        std::generate(vec.begin(), vec.end(), gen);
+        meter.measure([&vec] {
+            merge_sort(vec.data(), static_cast<int>(vec.size()));
+            return vec;
+        });
+    };
 }
