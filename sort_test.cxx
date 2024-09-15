@@ -150,3 +150,52 @@ TEST(SelectionSort, WithCollisions) {
     selection_sort(a, 10);
     EXPECT_THAT(std::vector(a, a + 10), testing::ElementsAre(1, 2, 3, 4, 5, 5, 5, 5, 7, 8));
 }
+
+
+TEST(MergeSort, EmptyArray) {
+    int a[] = {};
+    int* res = merge_sort(a, 0);
+    EXPECT_THAT(std::vector(res, res + 0), testing::IsEmpty());
+}
+
+TEST(MergeSort, SingleElement) {
+    int a[] = {10};
+    int* res = merge_sort(a, 1);
+    EXPECT_THAT(std::vector(res, res + 1), testing::ElementsAre(10));
+}
+
+TEST(MergeSort, AlreadySorted) {
+    int a[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int* res = merge_sort(a, 10);
+    EXPECT_THAT(std::vector(res, res + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+}
+
+TEST(MergeSort, AlreadyDescSorted) {
+    int a[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+    int* res = merge_sort(a, 10);
+    EXPECT_THAT(std::vector(res, res + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+}
+
+TEST(MergeSort, Shuffled1) {
+    int a[] = {1, 10, 5, 9, 6, 7, 4, 8, 2, 3};
+    int* res = merge_sort(a, 10);
+    EXPECT_THAT(std::vector(res, res + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+}
+
+TEST(MergeSort, Shuffled2) {
+    int a[] = {5, 7, 2, 9, 6, 10, 8, 1, 4, 3};
+    int* res = merge_sort(a, 10);
+    EXPECT_THAT(std::vector(res, res + 10), testing::ElementsAre(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+}
+
+TEST(MergeSort, Repeat) {
+    int a[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+    int* res = merge_sort(a, 10);
+    EXPECT_THAT(std::vector(res, res + 10), testing::Contains(1).Times(10));
+}
+
+TEST(MergeSort, WithCollisions) {
+    int a[] = {1, 5, 5, 5, 5, 7, 4, 8, 2, 3};
+    int* res = merge_sort(a, 10);
+    EXPECT_THAT(std::vector(res, res + 10), testing::ElementsAre(1, 2, 3, 4, 5, 5, 5, 5, 7, 8));
+}
