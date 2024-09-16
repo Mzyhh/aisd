@@ -12,8 +12,18 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(Catch2)
 
-add_executable(playground main.c sort.h sort.c)
+file(GLOB_RECURSE SRC_FILES src/*.c)
+list(REMOVE_ITEM SRC_FILES "${CMAKE_SOURCE_DIR}/src/main.c")
 
-add_executable(sort_test sort.c sort_test.cxx)
+file(GLOB_RECURSE SORT_TEST_FILES tests/sort*.cxx)
+
+message(STATUS "SRC_FILES: ${SRC_FILES}")
+message(STATUS "TEST_FILES: ${SORT_TEST_FILES}")
+
+add_executable(playground src/main.c ${SRC_FILES})
+target_include_directories(playground PRIVATE headers)
+
+add_executable(sort_test ${SRC_FILES} ${SORT_TEST_FILES})
 target_link_libraries(sort_test PRIVATE Catch2::Catch2WithMain)
+target_include_directories(sort_test PRIVATE headers)
 add_test(NAME sort_test COMMAND sort_test)
