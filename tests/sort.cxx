@@ -24,6 +24,9 @@ TEST_CASE("Works for an empty array", "[sort]") {
     SECTION("merge sort") {
         merge_sort(data, n);
     }
+    SECTION("bottom up merge sort") {
+        merge_bottom_up_sort(data, n);
+    }
 
     auto actual = std::vector(data, data + n);
     std::vector<int> expected = { };
@@ -45,6 +48,9 @@ TEST_CASE("Works for an array with one element", "[sort]") {
     }
     SECTION("merge sort") {
         merge_sort(data, n);
+    }
+    SECTION("bottom up merge sort") {
+        merge_bottom_up_sort(data, n);
     }
 
     auto actual = std::vector(data, data + n);
@@ -68,6 +74,9 @@ TEST_CASE("Works for an already sorted array", "[sort]") {
     SECTION("merge sort") {
         merge_sort(data, n);
     }
+    SECTION("bottom up merge sort") {
+        merge_bottom_up_sort(data, n);
+    }
 
     auto actual = std::vector(data, data + n);
     std::vector expected = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -90,6 +99,9 @@ TEST_CASE("Works for an array already sorted in reverse order", "[sort]") {
     SECTION("merge sort") {
         merge_sort(data, n);
     }
+    SECTION("bottom up merge sort") {
+        merge_bottom_up_sort(data, n);
+    }
 
     auto actual = std::vector(data, data + n);
     std::vector expected = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -111,6 +123,9 @@ TEST_CASE("Works for the shuffled array #1", "[sort]") {
     }
     SECTION("merge sort") {
         merge_sort(data, n);
+    }
+    SECTION("bottom up merge sort") {
+        merge_bottom_up_sort(data, n);
     }
 
     auto actual = std::vector(data, data + n);
@@ -135,6 +150,9 @@ TEST_CASE("Works for the shuffled array #2", "[sort]") {
     SECTION("merge sort") {
         merge_sort(data, n);
     }
+    SECTION("bottom up merge sort") {
+        merge_bottom_up_sort(data, n);
+    }
 
     auto actual = std::vector(data, data + n);
     std::vector expected = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -157,6 +175,9 @@ TEST_CASE("Works for an array of equal numbers", "[sort]") {
     SECTION("merge sort") {
         merge_sort(data, n);
     }
+    SECTION("bottom up merge sort") {
+        merge_bottom_up_sort(data, n);
+    }
 
     auto actual = std::vector(data, data + n);
     auto expected = std::vector(10, 1);
@@ -178,6 +199,9 @@ TEST_CASE("Works for an array with some equal numbers", "[sort]") {
     }
     SECTION("merge sort") {
         merge_sort(data, n);
+    }
+    SECTION("bottom up merge sort") {
+        merge_bottom_up_sort(data, n);
     }
 
     auto actual = std::vector(data, data + n);
@@ -211,6 +235,9 @@ TEST_CASE("Works for big random vector", "[sort]") {
     }
     SECTION("merge sort") {
         merge_sort(vec.data(), static_cast<int>(vec.size()));
+    }
+    SECTION("bottom up merge sort") {
+        merge_bottom_up_sort(vec.data(), static_cast<int>(vec.size()));
     }
 
     auto actual = vec;
@@ -256,6 +283,14 @@ TEST_CASE("Benchmarks", "[sort][.benchmark]") {
         std::generate(vec.begin(), vec.end(), gen);
         meter.measure([&vec] {
             merge_sort(vec.data(), static_cast<int>(vec.size()));
+            return vec;
+        });
+    };
+    BENCHMARK_ADVANCED("bottom up merge sort")(Catch::Benchmark::Chronometer meter) {
+        std::vector<int> vec(vec_size);
+        std::generate(vec.begin(), vec.end(), gen);
+        meter.measure([&vec] {
+            merge_bottom_up_sort(vec.data(), static_cast<int>(vec.size()));
             return vec;
         });
     };
