@@ -27,3 +27,7 @@ void selection_sort(int *data, const int n) {
 void merge_sort(int *data, const int n) {
 
 }
+
+void merge_bottom_up_sort(int *data, const int n) {
+
+}
