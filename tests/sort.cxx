@@ -334,77 +334,70 @@ TEST_CASE("Benchmarks", "[sort][.benchmark]") {
     auto gen = [&](){
         return distrib(mersenne_engine);
     };
+    std::vector<int> vec(vec_size);
+    std::generate(vec.begin(), vec.end(), gen);
 
     BENCHMARK_ADVANCED("bubble sort")(Catch::Benchmark::Chronometer meter) {
-        std::vector<int> vec(vec_size);
-        std::generate(vec.begin(), vec.end(), gen);
-        meter.measure([&vec] {
-            bubble_sort(vec.data(), static_cast<int>(vec.size()));
-            return vec;
+        std::vector vec_copy(vec);
+        meter.measure([&vec_copy] {
+            bubble_sort(vec_copy.data(), static_cast<int>(vec_copy.size()));
+            return vec_copy;
         });
     };
     BENCHMARK_ADVANCED("insertion sort")(Catch::Benchmark::Chronometer meter) {
-        std::vector<int> vec(vec_size);
-        std::generate(vec.begin(), vec.end(), gen);
-        meter.measure([&vec] {
-            insertion_sort(vec.data(), static_cast<int>(vec.size()));
-            return vec;
+        std::vector vec_copy(vec);
+        meter.measure([&vec_copy] {
+            insertion_sort(vec_copy.data(), static_cast<int>(vec_copy.size()));
+            return vec_copy;
         });
     };
     BENCHMARK_ADVANCED("insertion sort with bin search")(Catch::Benchmark::Chronometer meter) {
-        std::vector<int> vec(vec_size);
-        std::generate(vec.begin(), vec.end(), gen);
-        meter.measure([&vec] {
-            insertion_sort_optimized(vec.data(), static_cast<int>(vec.size()));
-            return vec;
+        std::vector vec_copy(vec);
+        meter.measure([&vec_copy] {
+            insertion_sort_optimized(vec_copy.data(), static_cast<int>(vec_copy.size()));
+            return vec_copy;
         });
     };
     BENCHMARK_ADVANCED("selection sort")(Catch::Benchmark::Chronometer meter) {
-        std::vector<int> vec(vec_size);
-        std::generate(vec.begin(), vec.end(), gen);
-        meter.measure([&vec] {
-            selection_sort(vec.data(), static_cast<int>(vec.size()));
-            return vec;
+        std::vector vec_copy(vec);
+        meter.measure([&vec_copy] {
+            selection_sort(vec_copy.data(), static_cast<int>(vec_copy.size()));
+            return vec_copy;
         });
     };
     BENCHMARK_ADVANCED("selection sort")(Catch::Benchmark::Chronometer meter) {
-        std::vector<int> vec(vec_size);
-        std::generate(vec.begin(), vec.end(), gen);
-        meter.measure([&vec] {
-            selection_sort(vec.data(), static_cast<int>(vec.size()));
-            return vec;
+        std::vector vec_copy(vec);
+        meter.measure([&vec_copy] {
+            selection_sort(vec_copy.data(), static_cast<int>(vec_copy.size()));
+            return vec_copy;
         });
     };
     BENCHMARK_ADVANCED("Shell sort")(Catch::Benchmark::Chronometer meter) {
-        std::vector<int> vec(vec_size);
-        std::generate(vec.begin(), vec.end(), gen);
-        meter.measure([&vec] {
-            shell_sort(vec.data(), static_cast<int>(vec.size()));
-            return vec;
+        std::vector vec_copy(vec);
+        meter.measure([&vec_copy] {
+            shell_sort(vec_copy.data(), static_cast<int>(vec_copy.size()));
+            return vec_copy;
         });
     };
     BENCHMARK_ADVANCED("merge sort")(Catch::Benchmark::Chronometer meter) {
-        std::vector<int> vec(vec_size);
-        std::generate(vec.begin(), vec.end(), gen);
-        meter.measure([&vec] {
-            merge_sort(vec.data(), static_cast<int>(vec.size()));
-            return vec;
+        std::vector vec_copy(vec);
+        meter.measure([&vec_copy] {
+            merge_sort(vec_copy.data(), static_cast<int>(vec_copy.size()));
+            return vec_copy;
         });
     };
     BENCHMARK_ADVANCED("bottom up merge sort")(Catch::Benchmark::Chronometer meter) {
-        std::vector<int> vec(vec_size);
-        std::generate(vec.begin(), vec.end(), gen);
-        meter.measure([&vec] {
-            merge_bottom_up_sort(vec.data(), static_cast<int>(vec.size()));
-            return vec;
+        std::vector vec_copy(vec);
+        meter.measure([&vec_copy] {
+            merge_bottom_up_sort(vec_copy.data(), static_cast<int>(vec_copy.size()));
+            return vec_copy;
         });
     };
     BENCHMARK_ADVANCED("merge sort with emulated recursion")(Catch::Benchmark::Chronometer meter) {
-        std::vector<int> vec(vec_size);
-        std::generate(vec.begin(), vec.end(), gen);
-        meter.measure([&vec] {
-            merge_sort_emulated_recursion(vec.data(), static_cast<int>(vec.size()));
-            return vec;
+        std::vector vec_copy(vec);
+        meter.measure([&vec_copy] {
+            merge_sort_emulated_recursion(vec_copy.data(), static_cast<int>(vec_copy.size()));
+            return vec_copy;
         });
     };
 }
