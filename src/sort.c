@@ -20,7 +20,15 @@ void insertion_sort(int *data, const int n) {
 
 }
 
+void insertion_sort_optimized(int *data, const int n) {
+
+}
+
 void selection_sort(int *data, const int n) {
+
+}
+
+void shell_sort(int *data, const int n) {
 
 }
 
@@ -29,5 +37,9 @@ void merge_sort(int *data, const int n) {
 }
 
 void merge_bottom_up_sort(int *data, const int n) {
+
+}
+
+void merge_sort_emulated_recursion(int *data, const int n) {
 
 }
