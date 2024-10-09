@@ -57,11 +57,11 @@ TEST_CASE("Quickselect works", "[nth-element]") {
         std::sort(data_sorted.begin(), data_sorted.end());
 
         for (int k = 0; k < 10; ++k)
-            CHECK(median_of_median(data.data(), n, k) == data_sorted[k]);
+            CHECK(quick_select(data.data(), n, k) == data_sorted[k]);
         for (int k = n / 2 - 5; k < n / 2 + 5; ++k)
-            CHECK(median_of_median(data.data(), n, k) == data_sorted[k]);
+            CHECK(quick_select(data.data(), n, k) == data_sorted[k]);
         for (int k = n - 10; k < n; ++k)
-            CHECK(median_of_median(data.data(), n, k) == data_sorted[k]);
+            CHECK(quick_select(data.data(), n, k) == data_sorted[k]);
     }
     SECTION("for the shuffled array with different length") {
         auto n = GENERATE(range(1, 20));
@@ -72,7 +72,7 @@ TEST_CASE("Quickselect works", "[nth-element]") {
         std::sort(data_sorted.begin(), data_sorted.end());
 
         for (int k = 0; k < n; ++k)
-            CHECK(median_of_median(data.data(), n, k) == data_sorted[k]);
+            CHECK(quick_select(data.data(), n, k) == data_sorted[k]);
     }
 }
 
