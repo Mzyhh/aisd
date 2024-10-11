@@ -12,6 +12,9 @@ void merge_sort(int *data, int n);
 void merge_bottom_up_sort(int *data, int n);
 void merge_sort_emulated_recursion(int *data, int n);
 
+int* pratt_sequence(int n);
+void merge(int *data, int l, int m, int r);
+
 enum merge_sort_op { SORT, MERGE };
 struct merge_sort_stack_frame {
     int l;
