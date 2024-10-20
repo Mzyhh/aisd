@@ -132,7 +132,7 @@ void merge_sort(int *data, const int n) {
 
 void merge_bottom_up_sort(int *data, const int n) {
     for (int size = 1; size <= n - 1; size *= 2) {
-        for (int l = 0; l < n - 1; l += 2*size) {
+        for (int l = 0; l < n; l += 2*size) {
             const int m = MIN(l + size, n);
             const int r = MIN(l + 2*size, n);
             merge(data, l, m, r);
