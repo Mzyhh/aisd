@@ -2,8 +2,13 @@
 #include "sort.h"
 #include <stdlib.h>
 
-/*Random integer number in [l, r)*/
-int rand_in(int l, int r) {
+/**
+ *This function generate random integer number in semi-interval [l, r).
+ *There is no calling srand() function inside it.
+ *@param l The left border of the semi-interval
+ *@param r The right border of the semi-interval
+ */
+int rand_in(const int l, const int r) {
     return rand() % (r - l) + l;
 }
 
