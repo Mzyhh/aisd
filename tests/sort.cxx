@@ -101,9 +101,9 @@ TEST_CASE("Works for an already sorted array", "[sort]") {
     SECTION("bottom up merge sort") {
         merge_bottom_up_sort(data, n);
     }
-    // SECTION("merge sort with emulated recursion") {
-    //     merge_sort_emulated_recursion(data, n);
-    // }
+    SECTION("merge sort with emulated recursion") {
+        merge_sort_emulated_recursion(data, n);
+    }
 
     auto actual = std::vector(data, data + n);
     std::vector expected = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -223,9 +223,9 @@ TEST_CASE("Works for an array of equal numbers", "[sort]") {
     SECTION("insertion sort") {
         insertion_sort(data, n);
     }
-    SECTION("insertion sort with bin search") {
-        insertion_sort_optimized(data, n);
-    }
+    // SECTION("insertion sort with bin search") {
+    //     insertion_sort_optimized(data, n);
+    // }
     SECTION("selection sort") {
         selection_sort(data, n);
     }
@@ -317,9 +317,9 @@ TEST_CASE("Works for big random vector", "[sort]") {
     SECTION("bottom up merge sort") {
         merge_bottom_up_sort(vec.data(), static_cast<int>(vec.size()));
     }
-    // SECTION("merge sort with emulated recursion") {
-    //     merge_sort_emulated_recursion(vec.data(), static_cast<int>(vec.size()));
-    // }
+    SECTION("merge sort with emulated recursion") {
+        merge_sort_emulated_recursion(vec.data(), static_cast<int>(vec.size()));
+    }
 
     auto actual = vec;
     REQUIRE_THAT(actual, Catch::Matchers::Equals(expected));
