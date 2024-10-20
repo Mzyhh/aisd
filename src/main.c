@@ -19,10 +19,11 @@ int main(void) {
     //     printf("input[%d] = %d\n", i, input[i]);
     // }
 
-    for (int i = 0; i < size; ++i) {
-        printf("stat(%d) = %d\n", i, quick_select(input, size, i));
-
-    }
+    // for (int i = 0; i < size; ++i) {
+    //     printf("stat(%d) = %d\n", i, input[select(input, 0, size, i)]);
+    // }
+    int i = 13;
+    printf("stat(%d) = %d\n", i, input[select(input, 0, size, i)]);
 
     return 0;
 }
