@@ -18,14 +18,14 @@ list(REMOVE_ITEM SRC_FILES "${CMAKE_SOURCE_DIR}/src/main.c")
 
 file(GLOB_RECURSE SORT_TEST_FILES tests/sort*.cxx)
 file(GLOB_RECURSE NTH_ELEMENT_TEST_FILES tests/nth_element*.cxx)
+file(GLOB_RECURSE BIGNUM_TEST_FILES tests/bignum*.cxx)
 
 message(STATUS "SRC_FILES: ${SRC_FILES}")
 message(STATUS "SORT_TEST_FILES: ${SORT_TEST_FILES}")
 message(STATUS "NTH_ELEMENT_TEST_FILES: ${NTH_ELEMENT_TEST_FILES}")
+message(STATUS "BIGNUM_TEST_FILES: ${BIGNUM_TEST_FILES}")
 
-add_executable(playground src/main.c ${SRC_FILES}
-        headers/sort.h
-        headers/nth_element.h)
+add_executable(playground src/main.c ${SRC_FILES})
 target_include_directories(playground PRIVATE headers)
 
 add_executable(sort_test ${SRC_FILES} ${SORT_TEST_FILES})
@@ -37,3 +37,8 @@ add_executable(nth_element_test ${SRC_FILES} ${NTH_ELEMENT_TEST_FILES})
 target_link_libraries(nth_element_test PRIVATE Catch2::Catch2WithMain)
 target_include_directories(nth_element_test PRIVATE headers)
 add_test(NAME nth_element_test COMMAND nth_element_test)
+
+add_executable(bignum_test ${SRC_FILES} ${BIGNUM_TEST_FILES})
+target_link_libraries(bignum_test PRIVATE Catch2::Catch2WithMain)
+target_include_directories(bignum_test PRIVATE headers)
+add_test(NAME bignum_test COMMAND bignum_test)
