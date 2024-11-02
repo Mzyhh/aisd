@@ -106,7 +106,7 @@ TEST_CASE("Karatsuba multiplication of two binary numbers", "[bignum]") {
 
         bignum a_struct = {.digits = a.data(), .n = static_cast<int>(a.size())};
         bignum b_struct = {.digits = b.data(), .n = static_cast<int>(b.size())};
-        auto [digits, n] = karatsuba_polynomial(a_struct, b_struct);
+        auto [digits, n] = karatsuba_binary_numbers(a_struct, b_struct);
         auto actual = std::vector(digits, digits + n);
 
         REQUIRE_THAT(actual, Catch::Matchers::Equals(expected));
@@ -119,7 +119,7 @@ TEST_CASE("Karatsuba multiplication of two binary numbers", "[bignum]") {
 
         bignum a_struct = {.digits = n1.data(), .n = static_cast<int>(n1.size())};
         bignum b_struct = {.digits = n2.data(), .n = static_cast<int>(n2.size())};
-        auto [digits, n] = karatsuba_polynomial(a_struct, b_struct);
+        auto [digits, n] = karatsuba_binary_numbers(a_struct, b_struct);
         auto actual = std::vector(digits, digits + n);
 
         REQUIRE_THAT(actual, Catch::Matchers::Equals(expected));
