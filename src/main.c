@@ -1,29 +1,25 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "sort.h"
 #include "nth_element.h"
+#include "bignum.h"
+
+void printArray(const int* const array, const int n) {
+    for (int i = 0; i < n; ++i)
+        printf("array[%d] = %d\n", i, array[i]);
+}
 
 int main(void) {
-    setbuf(stdout, NULL);
-
-    int input[] = {10, 3, 50, 4, 6, 7, 8, 9, 10, 6, 11, 13, 14, 15};
-    int size = sizeof(input) / sizeof(input[0]);
-    printf("Before partitioning:\n");
-    for (int i = 0; i < size; i++) {
-        printf("input[%d] = %d\n", i, input[i]);
-    }
-
-    // int p = partition(input, 0, size);
-    // printf("After partitioning:\n");
-    // printf("pivot = %d\n", p);
-    // for (int i = 0; i < size; i++) {
-    //     printf("input[%d] = %d\n", i, input[i]);
-    // }
-
-    // for (int i = 0; i < size; ++i) {
-    //     printf("stat(%d) = %d\n", i, input[select(input, 0, size, i)]);
-    // }
-    int i = 13;
-    printf("stat(%d) = %d\n", i, input[select(input, 0, size, i)]);
-
+    int a[] = {0};
+    int b[] = {0};
+    bignum n1 = {a, 1},
+           n2 = {b, 1};
+    bignum result = karatsuba_binary_numbers(n1, n2);
+    printf("a:\n");
+    printArray(a, 1);
+    printf("b:\n");
+    printArray(b, 1);
+    printf("c:\n");
+    printArray(result.digits, 2);
     return 0;
 }
