@@ -6,8 +6,8 @@ typedef struct {
     int n;
 } bignum;
 
-bignum karatsuba_polynomial(struct bignum n1, struct bignum n2);
+bignum karatsuba_polynomial(bignum n1, bignum n2);
 
-bignum karatsuba_binary_numbers(struct bignum n1, struct 
+bignum karatsuba_binary_numbers(bignum n1, bignum n2); 
 
 #endif //BIGNUM_H

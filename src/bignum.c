@@ -1,13 +1,13 @@
 #include "bignum.h"
 
-bignum karatsuba_polynomial(struct bignum n1, struct bignum n2) {
+bignum karatsuba_polynomial(bignum n1, bignum n2) {
     int digits[] = {1};
-    struct bignum res = {.digits = digits, .n = 1};
+    bignum res = {.digits = digits, .n = 1};
     return res;
 }
 
-bignum karatsuba_binary_numbers(struct bignum n1, struct bignum n2) {
+bignum karatsuba_binary_numbers(bignum n1, bignum n2) {
     int digits[] = {1};
-    struct bignum res = {.digits = digits, .n = 1};
+    bignum res = {.digits = digits, .n = 1};
     return res;
 }

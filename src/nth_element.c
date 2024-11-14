@@ -64,22 +64,22 @@ int pivot(int *data, int l, int r) {
         swap(data, l + (i - l) / 5, m);
     }
     r = l + (r - l) / 5;
-    const int m = select(data, l, r, (l + r) / 2);
+    const int m = select0(data, l, r, (l + r) / 2);
     return m;
 }
 
-int select(int *data, int l, int r, int k) {
+int select0(int *data, int l, int r, int k) {
     const int p = pivot(data, l, r);
     const int m = partition(data, l, r, p);
     if (k == m) {
         return m;
     }
     if (m > k) {
-        return select(data, l, m, k);
+        return select0(data, l, m, k);
     }
-    return select(data, m + 1, r, k);
+    return select0(data, m + 1, r, k);
 }
 
 int median_of_median(int *data, int n, int k) {
-    return data[select(data, 0, n, k)];
+    return data[select0(data, 0, n, k)];
 }
