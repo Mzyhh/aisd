@@ -1,13 +1,13 @@
 #ifndef BIGNUM_H
 #define BIGNUM_H
 
-struct bignum {
+typedef struct {
     int* digits;
     int n;
-};
+} bignum;
 
-struct bignum karatsuba_polynomial(struct bignum n1, struct bignum n2);
+bignum karatsuba_polynomial(struct bignum n1, struct bignum n2);
 
-struct bignum karatsuba_binary_numbers(struct bignum n1, struct bignum n2);
+bignum karatsuba_binary_numbers(struct bignum n1, struct 
 
 #endif //BIGNUM_H
