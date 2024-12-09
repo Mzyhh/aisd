@@ -149,7 +149,7 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
         }
         REQUIRE(ranges::is_sorted(numbers_in_tree));
 
-        auto values_in_range = [key_min, key_max](vector<node_23> const &nodes) {
+        auto at_least_one_value_in_range = [key_min, key_max](vector<node_23> const &nodes) {
             return ranges::all_of(nodes,
                                   [key_min, key_max](const node_23 &node) {
                                       switch (node.type) {
@@ -166,8 +166,8 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
         REQUIRE_THAT(
             filled_nodes,
             Catch::Matchers::Predicate<vector<node_23>>(
-                values_in_range,
-                "Values in nodes must be in range")
+                at_least_one_value_in_range,
+                "At least one value in nodes must be in range")
         );
     }
 
@@ -209,7 +209,7 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
         }
         REQUIRE(ranges::is_sorted(numbers_in_tree));
 
-        auto values_in_range = [key_min, key_max](vector<node_23> const &nodes) {
+        auto at_least_one_value_in_range = [key_min, key_max](vector<node_23> const &nodes) {
             return ranges::all_of(nodes,
                                   [key_min, key_max](const node_23 &node) {
                                       switch (node.type) {
@@ -226,8 +226,8 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
         REQUIRE_THAT(
             filled_nodes,
             Catch::Matchers::Predicate<vector<node_23>>(
-                values_in_range,
-                "Values in nodes must be in range")
+                at_least_one_value_in_range,
+                "At least one value in nodes must be in range")
         );
     }
 
@@ -269,7 +269,7 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
         }
         REQUIRE(ranges::is_sorted(numbers_in_tree));
 
-        auto values_in_range = [key_min, key_max](vector<node_23> const &nodes) {
+        auto at_least_one_value_in_range = [key_min, key_max](vector<node_23> const &nodes) {
             return ranges::all_of(nodes,
                                   [key_min, key_max](const node_23 &node) {
                                       switch (node.type) {
@@ -286,8 +286,8 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
         REQUIRE_THAT(
             filled_nodes,
             Catch::Matchers::Predicate<vector<node_23>>(
-                values_in_range,
-                "Values in nodes must be in range")
+                at_least_one_value_in_range,
+                "At least one value in nodes must be in range")
         );
     }
 }
@@ -328,127 +328,8 @@ TEST_CASE("get_shortest_longest_path() works", "[tree-23]") {
         }
 
         auto [shortest_len, longest_len] = get_shortest_longest_path(tree);
-        REQUIRE(shortest_len == len);
-        REQUIRE(longest_len == len);
-    }
-
-    SECTION("works for semi-infinite range (-inf, v)") {
-        auto len = GENERATE(Catch::Generators::range(1, max_len));
-
-        vector<int> numbers_to_insert(len);
-        ranges::generate(numbers_to_insert, gen);
-
-        node_23 *tree = nullptr;
-        for (auto value: numbers_to_insert) {
-            tree = add(tree, value);
-        }
-
-        int key_min = std::numeric_limits<int>::min();
-        int key_max = numbers_to_insert[len / 2];
-
-        std::vector res_nodes{mock_node};
-        get_nodes_with_key_between(tree, key_min, key_max, res_nodes.data());
-
-        auto filled_nodes_range = res_nodes
-                                  | views::take_while([](auto n) {
-                                      return n.value_left != std::numeric_limits<int>::min();
-                                  });
-        std::vector<node_23> filled_nodes{};
-        ranges::copy(filled_nodes_range, std::back_inserter(filled_nodes));
-
-        std::vector<int> numbers_in_tree{};
-        for (auto node: filled_nodes_range) {
-            switch (node.type) {
-                case node_2:
-                    numbers_in_tree.push_back(node.value_left);
-                case node_3:
-                    numbers_in_tree.push_back(node.value_left);
-                numbers_in_tree.push_back(node.value_right);
-                default:
-                    exit(20);
-            }
-        }
-        REQUIRE(ranges::is_sorted(numbers_in_tree));
-
-        auto values_in_range = [key_min, key_max](vector<node_23> const &nodes) {
-            return ranges::all_of(nodes,
-                                  [key_min, key_max](const node_23 &node) {
-                                      switch (node.type) {
-                                          case node_2:
-                                              return node.value_left >= key_min && node.value_right < key_max;
-                                          case node_3:
-                                              return node.value_left >= key_min && node.value_left < key_max
-                                                     || node.value_right >= key_min && node.value_right < key_max;
-                                          default:
-                                              exit(20);
-                                      }
-                                  });
-        };
-        REQUIRE_THAT(
-            filled_nodes,
-            Catch::Matchers::Predicate<vector<node_23>>(
-                values_in_range,
-                "Values in nodes must be in range")
-        );
-    }
-
-    SECTION("works for semi-infinite range (v, +inf)") {
-        auto len = GENERATE(Catch::Generators::range(1, max_len));
-
-        vector<int> numbers_to_insert(len);
-        ranges::generate(numbers_to_insert, gen);
-
-        node_23 *tree = nullptr;
-        for (auto value: numbers_to_insert) {
-            tree = add(tree, value);
-        }
-
-        int key_min = numbers_to_insert[len / 2];
-        int key_max = std::numeric_limits<int>::max();
-
-        std::vector res_nodes{mock_node};
-        get_nodes_with_key_between(tree, key_min, key_max, res_nodes.data());
-
-        auto filled_nodes_range = res_nodes
-                                  | views::take_while([](auto n) {
-                                      return n.value_left != std::numeric_limits<int>::min();
-                                  });
-        std::vector<node_23> filled_nodes{};
-        ranges::copy(filled_nodes_range, std::back_inserter(filled_nodes));
-
-        std::vector<int> numbers_in_tree{};
-        for (auto node: filled_nodes_range) {
-            switch (node.type) {
-                case node_2:
-                    numbers_in_tree.push_back(node.value_left);
-                case node_3:
-                    numbers_in_tree.push_back(node.value_left);
-                numbers_in_tree.push_back(node.value_right);
-                default:
-                    exit(20);
-            }
-        }
-        REQUIRE(ranges::is_sorted(numbers_in_tree));
-
-        auto values_in_range = [key_min, key_max](vector<node_23> const &nodes) {
-            return ranges::all_of(nodes,
-                                  [key_min, key_max](const node_23 &node) {
-                                      switch (node.type) {
-                                          case node_2:
-                                              return node.value_left >= key_min && node.value_right < key_max;
-                                          case node_3:
-                                              return node.value_left >= key_min && node.value_left < key_max
-                                                     || node.value_right >= key_min && node.value_right < key_max;
-                                          default:
-                                              exit(20);
-                                      }
-                                  });
-        };
-        REQUIRE_THAT(
-            filled_nodes,
-            Catch::Matchers::Predicate<vector<node_23>>(
-                values_in_range,
-                "Values in nodes must be in range")
-        );
+        auto expected_height = (len - 1) / 2; // inner nodes are 3-nodes, leaf is 2- or 3-node
+        REQUIRE(shortest_len == expected_height);
+        REQUIRE(longest_len == expected_height);
     }
 }
