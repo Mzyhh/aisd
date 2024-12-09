@@ -156,7 +156,7 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
                                   [key_min, key_max](const node_23 &node) {
                                       switch (node.type) {
                                           case node_2:
-                                              return node.value_left >= key_min && node.value_right < key_max;
+                                              return node.value_left >= key_min && node.value_left < key_max;
                                           case node_3:
                                               return node.value_left >= key_min && node.value_left < key_max
                                                      || node.value_right >= key_min && node.value_right < key_max;
@@ -205,8 +205,8 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
                     break;
                 case node_3:
                     numbers_in_tree.push_back(node.value_left);
+                    numbers_in_tree.push_back(node.value_right);
                     break;
-                numbers_in_tree.push_back(node.value_right);
                 default:
                     exit(20);
             }
@@ -218,7 +218,7 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
                                   [key_min, key_max](const node_23 &node) {
                                       switch (node.type) {
                                           case node_2:
-                                              return node.value_left >= key_min && node.value_right < key_max;
+                                              return node.value_left >= key_min && node.value_left < key_max;
                                           case node_3:
                                               return node.value_left >= key_min && node.value_left < key_max
                                                      || node.value_right >= key_min && node.value_right < key_max;
@@ -280,7 +280,7 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
                                   [key_min, key_max](const node_23 &node) {
                                       switch (node.type) {
                                           case node_2:
-                                              return node.value_left >= key_min && node.value_right < key_max;
+                                              return node.value_left >= key_min && node.value_left < key_max;
                                           case node_3:
                                               return node.value_left >= key_min && node.value_left < key_max
                                                      || node.value_right >= key_min && node.value_right < key_max;
