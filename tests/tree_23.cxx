@@ -140,9 +140,11 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
             switch (node.type) {
                 case node_2:
                     numbers_in_tree.push_back(node.value_left);
+                    break;
                 case node_3:
                     numbers_in_tree.push_back(node.value_left);
                     numbers_in_tree.push_back(node.value_right);
+                    break;
                 default:
                     exit(20);
             }
@@ -200,8 +202,10 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
             switch (node.type) {
                 case node_2:
                     numbers_in_tree.push_back(node.value_left);
+                    break;
                 case node_3:
                     numbers_in_tree.push_back(node.value_left);
+                    break;
                 numbers_in_tree.push_back(node.value_right);
                 default:
                     exit(20);
@@ -260,9 +264,11 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
             switch (node.type) {
                 case node_2:
                     numbers_in_tree.push_back(node.value_left);
+                    break;
                 case node_3:
                     numbers_in_tree.push_back(node.value_left);
-                numbers_in_tree.push_back(node.value_right);
+                    numbers_in_tree.push_back(node.value_right);
+                    break;
                 default:
                     exit(20);
             }
