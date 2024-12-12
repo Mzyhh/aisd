@@ -125,7 +125,7 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
         if (key_min == key_max)
             key_max += 1;
 
-        std::vector res_nodes{mock_node};
+        std::vector res_nodes(max_len, mock_node);
         get_nodes_with_key_between(tree, key_min, key_max, res_nodes.data());
 
         auto filled_nodes_range = res_nodes
@@ -187,7 +187,7 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
         int key_min = std::numeric_limits<int>::min();
         int key_max = numbers_to_insert[len / 2];
 
-        std::vector res_nodes{mock_node};
+        std::vector res_nodes(max_len, mock_node);
         get_nodes_with_key_between(tree, key_min, key_max, res_nodes.data());
 
         auto filled_nodes_range = res_nodes
@@ -249,7 +249,7 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
         int key_min = numbers_to_insert[len / 2];
         int key_max = std::numeric_limits<int>::max();
 
-        std::vector res_nodes{mock_node};
+        std::vector res_nodes(max_len, mock_node);
         get_nodes_with_key_between(tree, key_min, key_max, res_nodes.data());
 
         auto filled_nodes_range = res_nodes
