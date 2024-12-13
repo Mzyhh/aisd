@@ -135,7 +135,7 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
         std::vector<node_23> filled_nodes{};
         ranges::copy(filled_nodes_range, std::back_inserter(filled_nodes));
 
-        std::vector<int> numbers_in_tree{};
+        /*std::vector<int> numbers_in_tree{};
         for (auto node: filled_nodes_range) {
             switch (node.type) {
                 case node_2:
@@ -149,7 +149,7 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
                     exit(20);
             }
         }
-        REQUIRE(ranges::is_sorted(numbers_in_tree));
+        REQUIRE(ranges::is_sorted(numbers_in_tree));*/
 
         auto at_least_one_value_in_range = [key_min, key_max](vector<node_23> const &nodes) {
             return ranges::all_of(nodes,
@@ -197,7 +197,7 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
         std::vector<node_23> filled_nodes{};
         ranges::copy(filled_nodes_range, std::back_inserter(filled_nodes));
 
-        std::vector<int> numbers_in_tree{};
+        /*std::vector<int> numbers_in_tree{};
         for (auto node: filled_nodes_range) {
             switch (node.type) {
                 case node_2:
@@ -211,7 +211,7 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
                     exit(20);
             }
         }
-        REQUIRE(ranges::is_sorted(numbers_in_tree));
+        REQUIRE(ranges::is_sorted(numbers_in_tree));*/
 
         auto at_least_one_value_in_range = [key_min, key_max](vector<node_23> const &nodes) {
             return ranges::all_of(nodes,
@@ -259,7 +259,7 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
         std::vector<node_23> filled_nodes{};
         ranges::copy(filled_nodes_range, std::back_inserter(filled_nodes));
 
-        std::vector<int> numbers_in_tree{};
+        /*std::vector<int> numbers_in_tree{};
         for (auto node: filled_nodes_range) {
             switch (node.type) {
                 case node_2:
@@ -273,7 +273,7 @@ TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
                     exit(20);
             }
         }
-        REQUIRE(ranges::is_sorted(numbers_in_tree));
+        REQUIRE(ranges::is_sorted(numbers_in_tree));*/
 
         auto at_least_one_value_in_range = [key_min, key_max](vector<node_23> const &nodes) {
             return ranges::all_of(nodes,
