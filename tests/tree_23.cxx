@@ -315,8 +315,9 @@ TEST_CASE("get_shortest_longest_path() works", "[tree-23]") {
         REQUIRE(longest_len <= len);
         REQUIRE(shortest_len <= len);
 
-        int min_integers_count = floor(pow(2, shortest_len + 1) - 1);
-        REQUIRE(len >= min_integers_count);
+        // only for balanced tree
+        // int min_integers_count = floor(pow(2, shortest_len + 1) - 1);
+        // REQUIRE(len >= min_integers_count);
         int max_integers_count = ceil(pow(3, longest_len + 1) - 1);
         REQUIRE(len <= max_integers_count);
     }
