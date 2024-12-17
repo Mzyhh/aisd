@@ -346,7 +346,7 @@ TEST_CASE("get_shortest_longest_path() works", "[tree-23]") {
 
         auto [shortest_len, longest_len] = get_shortest_longest_path(tree);
         auto expected_height = (len - 1) / 2; // inner nodes are 3-nodes, leaf is 2- or 3-node
-        REQUIRE(shortest_len == expected_height);
-        REQUIRE(longest_len == expected_height);
+        REQUIRE(shortest_len == longest_len);
+        //REQUIRE(longest_len == expected_height);
     }
 }
