@@ -54,4 +54,6 @@ void get_nodes_with_key_between(const node_23 *tree, int key_min, int key_max, n
 
 node_23 *add(node_23 *tree, int value);
 
+void print_node(node_23 *node);
+
 #endif //TREE_23_H
