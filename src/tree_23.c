@@ -9,13 +9,29 @@
 
 void print_node(node_23 *node) {
     if (node->type == node_2) {
-        printf("node_2:\nvalue_left = %d\nleft = %p\nright = %p\nself = %p\nparent = %p\n", 
-        node->value_left, node->left, node->right, node, node->parent);
+        printf("node_2:\nvalue_left = %d\n", node->value_left);
+        if (node->left)
+            printf("left = %d\nright = %d\n", node->left->value_left, node->right->value_left);
+        if (node->parent)
+            printf("parent = %d\n", node->parent->value_left);
     } else {
-        printf("node_3:\nvalue_left = %d\nvalue_right = %d\nleft = %p\nmiddle = %p\nright = %p\nself = %p\nparent = %p\n",
-         node->value_left, node->value_right, node->left, node->middle, node->right, node, node->parent);
+        printf("node_3:\n");
+        printf("value_left = %d\nvalue_right = %d\n", node->value_left, node->value_right);
+        if (node->left)
+            printf("left = %d\nmiddle = %d\nright = %d\n", node->left->value_left, node->middle->value_left, node->right->value_left);
+        if (node->parent)
+            printf("parent = %d\n", node->parent->value_left);
     }
     printf("\n");
+}
+
+void print_all_nodes(node_23 *tree) {
+    if (!tree) return;
+    print_node(tree);
+    print_all_nodes(tree->left);
+    if (tree->type == node_3)
+        print_all_nodes(tree->middle);
+    print_all_nodes(tree->right);
 }
 
 int print_recursive(const node_23 *tree, char *result, size_t position) {
@@ -39,6 +55,7 @@ void print(const node_23 *tree, char *result) {
 */
 const node_23 *find(const node_23 *tree, int value) {
     if (!tree) return NULL;
+    if (value == tree->value_left || (tree->type == node_3 && tree->value_right == value)) return tree;
     if (value < tree->value_left) return find(tree->left, value);
     int tmp = tree->type == node_2 ? tree->value_left : tree->value_right;
     if (value >= tmp) return find(tree->right, value);
@@ -119,6 +136,10 @@ void node_3to4(node_23 *node, int value) {
 node_23 *split(node_23 *node) {
     node_23 *right_child = node_4to2(node);
     node_23 *left_child = node;
+    if (right_child->left) {
+            right_child->left->parent = right_child;
+            right_child->right->parent = right_child;
+        }
     node_23 *parent = node->parent;
     if (!parent) { // node is root node
         node_23 *new_root = malloc(sizeof(node_23));
@@ -129,10 +150,6 @@ node_23 *split(node_23 *node) {
         right_child->parent = new_root;
         new_root->left = left_child;
         new_root->right = right_child;
-        if (right_child->left) {
-            right_child->left->parent = right_child;
-            right_child->right->parent = right_child;
-        }
         return new_root;
     }
     if (parent->type == node_2) {
