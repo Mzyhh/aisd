@@ -1,38 +1,13 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <limits.h>
 
 #include "tree_23.h"
 
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
-void print_node(node_23 *node) {
-    if (node->type == node_2) {
-        printf("node_2:\nvalue_left = %d\n", node->value_left);
-        if (node->left)
-            printf("left = %d\nright = %d\n", node->left->value_left, node->right->value_left);
-        if (node->parent)
-            printf("parent = %d\n", node->parent->value_left);
-    } else {
-        printf("node_3:\n");
-        printf("value_left = %d\nvalue_right = %d\n", node->value_left, node->value_right);
-        if (node->left)
-            printf("left = %d\nmiddle = %d\nright = %d\n", node->left->value_left, node->middle->value_left, node->right->value_left);
-        if (node->parent)
-            printf("parent = %d\n", node->parent->value_left);
-    }
-    printf("\n");
-}
-
-void print_all_nodes(node_23 *tree) {
-    if (!tree) return;
-    print_node(tree);
-    print_all_nodes(tree->left);
-    if (tree->type == node_3)
-        print_all_nodes(tree->middle);
-    print_all_nodes(tree->right);
-}
 
 int print_recursive(const node_23 *tree, char *result, size_t position) {
     if (!tree) return position;
@@ -62,9 +37,19 @@ const node_23 *find(const node_23 *tree, int value) {
     return find(tree->middle, value);
 }
 
+int_pair base_case = {INT_MAX, INT_MIN};
+
 int_pair get_shortest_longest_path(const node_23 *tree) {
-    int_pair res = {.n1 = 0, .n2 = 0};
-    return res;
+    int_pair result = {0, 0};
+    if (!tree->left && !tree->right && (tree->type == node_2 || !tree->middle)) return result;
+    int_pair left, middle, right;
+    left = middle = right = base_case;
+    left = get_shortest_longest_path(tree->left);
+    middle = tree->type == node_3 ? get_shortest_longest_path(tree->middle) : middle;
+    right = get_shortest_longest_path(tree->right);
+    result.n1 = MIN(MIN(left.n1, middle.n1), right.n1) + 1;
+    result.n2 = MAX(MAX(left.n2, middle.n2), right.n2) + 1;
+    return result;
 }
 
 int get_nodes_with_key_between_recursive(const node_23 *tree, int key_min, int key_max, node_23 *res, size_t position) {
