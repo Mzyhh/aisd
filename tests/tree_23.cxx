@@ -3,6 +3,7 @@
 #include <iostream>
 #include <random>
 #include <ranges>
+#include <unordered_set>
 
 #include "catch2/catch_test_macros.hpp"
 #include "catch2/generators/catch_generators_range.hpp"
@@ -37,8 +38,9 @@ TEST_CASE("add() and find() works", "[tree-23]") {
         ranges::generate(numbers, gen);
 
         node_23 *tree = nullptr;
-        for (auto value: numbers)
+        for (auto value: numbers) {
             tree = add(tree, value);
+        }
 
         auto tree_contain_all_numbers = [tree](vector<int> const &numbers2) {
             return ranges::all_of(numbers2,
@@ -84,6 +86,14 @@ TEST_CASE("print() works", "[tree-23]") {
 
         vector<int> numbers_to_insert(len);
         ranges::generate(numbers_to_insert, gen);
+        unordered_set<int> a;
+        for (int number: numbers_to_insert) {
+            a.insert(number);
+        }
+        numbers_to_insert = {};
+        for(int i:a)
+            numbers_to_insert.push_back(i);
+        len = numbers_to_insert.size();
 
         node_23 *tree = nullptr;
         for (auto value: numbers_to_insert) {

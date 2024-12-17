@@ -56,4 +56,6 @@ node_23 *add(node_23 *tree, int value);
 
 void print_node(node_23 *node);
 
+void print_all_nodes(node_23 *tree);
+
 #endif //TREE_23_H
