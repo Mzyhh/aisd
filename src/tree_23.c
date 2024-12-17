@@ -1,13 +1,25 @@
 #include <stddef.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include "tree_23.h"
 
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
+int print_recursive(const node_23 *tree, char *result, size_t position) {
+    if (!tree) return position;
+    position = print_recursive(tree->left, result, position);
+    position += sprintf(result + position, "%d ", tree->value_left);
+    if (tree->type == node_3) {
+        position = print_recursive(tree->middle, result, position);
+        position += sprintf(result + position, "%d ", tree->value_right);
+    }
+    return print_recursive(tree->right, result, position);
+}
 
 void print(const node_23 *tree, char *result) {
-    result[0] = '\0';
+    print_recursive(tree, result, 0);
 }
 
 /*
@@ -26,8 +38,23 @@ int_pair get_shortest_longest_path(const node_23 *tree) {
     return res;
 }
 
-void get_nodes_with_key_between(const node_23 *tree, int key_min, int key_max, node_23 *res) {
+int get_nodes_with_key_between(const node_23 *tree, int key_min, int key_max, node_23 *res, size_t position) {
+    if (!tree) return position;
+    if (tree->value_left >= key_min)
+        position = get_nodes_with_key_between(tree->left, key_min, key_max, res, position);
 
+    if (tree->value_left >= key_min && tree->value_left < key_max || 
+        tree->type == node_3 && 
+        tree->value_right >= key_min && tree->value_right < key_max)
+        res[position++] = *tree;
+
+    if (tree->type == node_3 && key_max > tree->value_left && key_min <= tree->value_right)
+        position = get_nodes_with_key_between(tree->middle, key_min, key_max, res, position);
+
+    int value = tree->type == node_2 ? tree->value_left : tree->value_right;
+    if (value < key_max)
+        position = get_nodes_with_key_between(tree->right, key_min, key_max, res, position);
+    return position;
 }
 
 /*
@@ -45,7 +72,7 @@ node_23 *__find(node_23 *tree, int value) {
 *   Returns right produced node with type node_2
 */
 node_23 *node_4to2(node_23 *node) {
-    node_23 *new_node = calloc(1, sizeof(node_23));
+    node_23 *new_node = malloc(sizeof(node_23));
     new_node->type = node_2;
     new_node->parent = node->parent;
     new_node->left = node->middle2;
@@ -76,7 +103,7 @@ node_23 *split(node_23 *node, int value) {
     node_23 *left_child = node;
     node_23 *parent = node->parent;
     if (!node->parent) { // node is root node
-        node_23 *new_root = calloc(1, sizeof(node_23));
+        node_23 *new_root = malloc(sizeof(node_23));
         new_root->type = node_2;
         new_root->value_left = node->value_middle;
         new_root->parent = NULL;
@@ -136,7 +163,7 @@ node_23 *add(node_23 *tree, int value) {
     }
 
     node_3to4(node, value);
-    while (node->type = node_4) {
+    while (node->type == node_4) {
         node = split(node, value);
         if (!node->parent) return node;
     }
