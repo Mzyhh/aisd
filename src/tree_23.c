@@ -9,11 +9,11 @@
 
 void print_node(node_23 *node) {
     if (node->type == node_2) {
-        printf("node_2:\nvalue_left = %d\nleft = %p\nright = %p\nself = %p\n", 
-        node->value_left, node->left, node->right, node);
+        printf("node_2:\nvalue_left = %d\nleft = %p\nright = %p\nself = %p\nparent = %p\n", 
+        node->value_left, node->left, node->right, node, node->parent);
     } else {
-        printf("node_3:\nvalue_left = %d\nvalue_right = %d\nleft = %p\nmiddle = %p\nright = %p\nself = %p\n",
-         node->value_left, node->value_right, node->left, node->middle, node->right, node);
+        printf("node_3:\nvalue_left = %d\nvalue_right = %d\nleft = %p\nmiddle = %p\nright = %p\nself = %p\nparent = %p\n",
+         node->value_left, node->value_right, node->left, node->middle, node->right, node, node->parent);
     }
     printf("\n");
 }
@@ -129,6 +129,10 @@ node_23 *split(node_23 *node) {
         right_child->parent = new_root;
         new_root->left = left_child;
         new_root->right = right_child;
+        if (right_child->left) {
+            right_child->left->parent = right_child;
+            right_child->right->parent = right_child;
+        }
         return new_root;
     }
     if (parent->type == node_2) {
@@ -146,7 +150,7 @@ node_23 *split(node_23 *node) {
     } else {
         node_3to4(parent, node->value_middle);
         if (parent->left == node) {
-            parent->middle2 = node->parent->middle;
+            parent->middle2 = parent->middle;
             parent->middle = right_child;
         } else if (parent->middle == node) {
             parent->middle2 = right_child;
@@ -170,11 +174,6 @@ node_23 *add(node_23 *tree, int value) {
     if (find(tree, value)) return tree; // tree already contains value
 
     node_23 *node = __find(tree, value);
-    if (value == 100) {
-        printf("---------------------------\n");
-        print_node(node);
-        printf("---------------------------\n");
-    }
     if (node->type == node_2) {
         if (node->value_left < value) {
             node->value_right = value;
