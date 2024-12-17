@@ -4,7 +4,6 @@
 typedef enum {
     node_2,
     node_3,
-    node_4,
 } node_type;
 
 /*
@@ -27,10 +26,8 @@ typedef struct node_23 {
     struct node_23 *parent;
     struct node_23 *left;
     struct node_23 *middle;
-    struct node_23 *middle2;
     struct node_23 *right;
     int value_left;
-    int value_middle;
     int value_right;
     node_type type;
 } node_23;
