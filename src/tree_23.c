@@ -25,9 +25,6 @@ void print(const node_23 *tree, char *result) {
     result[print_recursive(tree, result, 0) - (tree != NULL)] = '\0';
 }
 
-/*
-* Find for balanced 2-3 tree
-*/
 const node_23 *find(const node_23 *tree, int value) {
     if (!tree) return NULL;
     if (value == tree->value_left || (tree->type == node_3 && tree->value_right == value)) return tree;
@@ -75,10 +72,6 @@ void get_nodes_with_key_between(const node_23 *tree, int key_min, int key_max, n
     get_nodes_with_key_between_recursive(tree, key_min, key_max, res, 0);    
 }
 
-
-/*
-* Find position for balanced 2-3 tree
-*/
 node_23 *__find(node_23 *tree, int value) {
     if (!tree->left) return tree;
     if (value < tree->value_left) return __find(tree->left, value);
@@ -87,81 +80,93 @@ node_23 *__find(node_23 *tree, int value) {
     return __find(tree->middle, value);
 }
 
-/*
-*   Returns right produced node with type node_2
-*/
-node_23 *node_4to2(node_23 *node) {
+typedef struct node_4 {
+    node_23 *n;
+    int value_middle;
+    struct node_23 *middle2;
+} node_4;
+
+node_23 *node_4to2(node_4 *node) {
     node_23 *new_node = malloc(sizeof(node_23));
     new_node->type = node_2;
-    new_node->parent = node->parent;
+    new_node->parent = node->n->parent;
     new_node->left = node->middle2;
-    new_node->right = node->right;
-    new_node->value_left = node->value_right;
+    new_node->right = node->n->right;
+    new_node->value_left = node->n->value_right;
 
-    node->type = node_2;
-    node->right = node->middle;
+    node->n->type = node_2;
+    node->n->right = node->n->middle;
 
     return new_node;
 }
 
-void node_3to4(node_23 *node, int value) {
+node_4 *node_3to4(node_23 *node, int value) {
+    node_4 *res = (node_4*)malloc(sizeof(node_4));
+    res->n = node;
     if (value < node->value_left) {
-        node->value_middle = node->value_left;
-        node->value_left = value;
+        res->value_middle = res->n->value_left;
+        res->n->value_left = value;
     } else if (value < node->value_right) {
-        node->value_middle = value;
+        res->value_middle = value;
     } else {
-        node->value_middle = node->value_right;
-        node->value_right = value;     
+        res->value_middle = res->n->value_right;
+        res->n->value_right = value;     
     }
-    node->type = node_4;
-    node->middle2 = NULL;
+    res->middle2 = NULL;
+    return res;
 }
 
-node_23 *split(node_23 *node) {
-    node_23 *right_child = node_4to2(node);
-    node_23 *left_child = node;
+node_23 *split(node_4 **container) {
+    node_4 *node4 = *container;
+    node_23 *node23 = node4->n;
+    node_23 *right_child = node_4to2(node4);
+    node_23 *left_child = node4->n;
+    node_23 *parent = node4->n->parent;
     if (right_child->left) {
             right_child->left->parent = right_child;
             right_child->right->parent = right_child;
-        }
-    node_23 *parent = node->parent;
+    }
     if (!parent) { // node is root node
         node_23 *new_root = malloc(sizeof(node_23));
         new_root->type = node_2;
-        new_root->value_left = node->value_middle;
+        new_root->value_left = node4->value_middle;
         new_root->parent = NULL;
         left_child->parent = new_root;
         right_child->parent = new_root;
         new_root->left = left_child;
         new_root->right = right_child;
+        free(node4);
+        *container = NULL;
         return new_root;
     }
     if (parent->type == node_2) {
         parent->type = node_3;
-        if (parent->left == node) {
+        if (parent->left == node23) {
             parent->value_right = parent->value_left;
-            parent->value_left = node->value_middle;
+            parent->value_left = node4->value_middle;
             parent->left = left_child;
             parent->middle = right_child;
         } else {
-            parent->value_right = node->value_middle;
+            parent->value_right = node4->value_middle;
             parent->middle = left_child;
             parent->right = right_child;
         }
+        *container = NULL;
     } else {
-        node_3to4(parent, node->value_middle);
-        if (parent->left == node) {
-            parent->middle2 = parent->middle;
+        node_4 *parent4 = node_3to4(parent, node4->value_middle);
+        if (parent->left == node23) {
+            parent4->middle2 = parent->middle;
             parent->middle = right_child;
-        } else if (parent->middle == node) {
-            parent->middle2 = right_child;
+        } else if (parent->middle == node23) {
+            parent4->middle2 = right_child;
         } else {
-            parent->middle2 = left_child;
+            parent4->middle2 = left_child;
             parent->right = right_child;
         }
+        *container = parent4;
     }
-    return node;
+    free(node4);
+    return node23;
 }
 
 node_23 *add(node_23 *tree, int value) {
@@ -188,11 +193,10 @@ node_23 *add(node_23 *tree, int value) {
         return tree;
     }
 
-    node_3to4(node, value);
-    while (node->type == node_4) {
-        node = split(node);
+    node_4 *tmp = node_3to4(node, value);
+    while (tmp) {
+        node = split(&tmp);
         if (!node->parent) return node;
-        node = node->parent;
     }
     return tree;
 }
