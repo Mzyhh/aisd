@@ -4,23 +4,33 @@
 typedef enum {
     node_2,
     node_3,
+    node_4,
 } node_type;
 
 /*
  * 2-node:
  * type = node_2
  * middle - undefined
+ * middle2 - undefined
  * value_right - undefined
+ * value_middle - undefined
  *
  * 3-node:
  * type = node_3
+ * middle2 - undefined
+ * value_middle - undefined
+ * 
+ * 4-node:
+ * type = node_4
  */
 typedef struct node_23 {
     struct node_23 *parent;
     struct node_23 *left;
     struct node_23 *middle;
+    struct node_23 *middle2;
     struct node_23 *right;
     int value_left;
+    int value_middle;
     int value_right;
     node_type type;
 } node_23;

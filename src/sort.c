@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define MIN(a, b) (a < b ? a : b)
-#define MAX(a, b) (a > b ? a : b)
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 void swap(int *a, const int i, const int j) {
     const int tmp = a[i];
