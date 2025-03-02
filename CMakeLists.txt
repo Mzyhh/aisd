@@ -22,11 +22,19 @@ file(GLOB_RECURSE NTH_ELEMENT_TEST_FILES tests/nth_element*.cxx)
 file(GLOB_RECURSE BIGNUM_TEST_FILES tests/bignum*.cxx)
 file(GLOB_RECURSE TREE23_TEST_FILES tests/tree_23*.cxx)
 
+file(GLOB_RECURSE BINARY_TREE_TEST_FILES tests/binary_tree*.cxx)
+file(GLOB_RECURSE QUEUE_HM_TEST_FILES tests/queue_hm*.cxx)
+file(GLOB_RECURSE LIST_PERSISTENT_TEST_FILES tests/list_persistent*.cxx)
+
 message(STATUS "SRC_FILES: ${SRC_FILES}")
 message(STATUS "SORT_TEST_FILES: ${SORT_TEST_FILES}")
 message(STATUS "NTH_ELEMENT_TEST_FILES: ${NTH_ELEMENT_TEST_FILES}")
 message(STATUS "BIGNUM_TEST_FILES: ${BIGNUM_TEST_FILES}")
 message(STATUS "TREE23_TEST_FILES: ${TREE23_TEST_FILES}")
+
+message(STATUS "BINARY_TREE_TEST_FILES: ${BINARY_TREE_TEST_FILES}")
+message(STATUS "QUEUE_HM_TEST_FILES: ${QUEUE_HM_TEST_FILES}")
+message(STATUS "LIST_PERSISTENT_TEST_FILES: ${LIST_PERSISTENT_TEST_FILES}")
 
 add_executable(playground src/main.c ${SRC_FILES})
 target_include_directories(playground PRIVATE headers)
@@ -50,3 +58,18 @@ add_executable(tree23_test ${SRC_FILES} ${TREE23_TEST_FILES})
 target_link_libraries(tree23_test PRIVATE Catch2::Catch2WithMain)
 target_include_directories(tree23_test PRIVATE headers)
 add_test(NAME tree23_test COMMAND tree23_test)
+
+add_executable(binary_tree_test ${SRC_FILES} ${BINARY_TREE_TEST_FILES})
+target_link_libraries(binary_tree_test PRIVATE Catch2::Catch2WithMain)
+target_include_directories(binary_tree_test PRIVATE headers)
+add_test(NAME binary_tree_test COMMAND binary_tree_test)
+
+add_executable(queue_hm_test ${SRC_FILES} ${QUEUE_HM_TEST_FILES})
+target_link_libraries(queue_hm_test PRIVATE Catch2::Catch2WithMain)
+target_include_directories(queue_hm_test PRIVATE headers)
+add_test(NAME queue_hm_test COMMAND queue_hm_test)
+
+add_executable(list_persistent_test ${SRC_FILES} ${LIST_PERSISTENT_TEST_FILES})
+target_link_libraries(list_persistent_test PRIVATE Catch2::Catch2WithMain)
+target_include_directories(list_persistent_test PRIVATE headers)
+add_test(NAME list_persistent_test COMMAND list_persistent_test)
