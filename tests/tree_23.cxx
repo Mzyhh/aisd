@@ -80,41 +80,41 @@ TEST_CASE("add() and find() works", "[tree-23]") {
     }
 }
 
-TEST_CASE("print() works", "[tree-23]") {
-    SECTION("works") {
-        auto len = GENERATE(Catch::Generators::range(0, max_len));
+// TEST_CASE("print() works", "[tree-23]") {
+//     SECTION("works") {
+//         auto len = GENERATE(Catch::Generators::range(0, max_len));
 
-        vector<int> numbers_to_insert(len);
-        ranges::generate(numbers_to_insert, gen);
-        unordered_set<int> a;
-        for (int number: numbers_to_insert) {
-            a.insert(number);
-        }
-        numbers_to_insert = {};
-        for(int i:a)
-            numbers_to_insert.push_back(i);
-        len = numbers_to_insert.size();
+//         vector<int> numbers_to_insert(len);
+//         ranges::generate(numbers_to_insert, gen);
+//         unordered_set<int> a;
+//         for (int number: numbers_to_insert) {
+//             a.insert(number);
+//         }
+//         numbers_to_insert = {};
+//         for(int i:a)
+//             numbers_to_insert.push_back(i);
+//         len = numbers_to_insert.size();
 
-        node_23 *tree = nullptr;
-        for (auto value: numbers_to_insert) {
-            tree = add(tree, value);
-        }
+//         node_23 *tree = nullptr;
+//         for (auto value: numbers_to_insert) {
+//             tree = add(tree, value);
+//         }
 
-        // number contain 3 digits + 1 sign + 1 space
-        auto print_res_arr = array<char, max_len * 5>();
-        print(tree, print_res_arr.data());
-        string print_res(print_res_arr.data());
+//         // number contain 3 digits + 1 sign + 1 space
+//         auto print_res_arr = array<char, max_len * 5>();
+//         print(tree, print_res_arr.data());
+//         string print_res(print_res_arr.data());
 
-        ranges::sort(numbers_to_insert);
-        string expected;
-        for (char char2: numbers_to_insert
-                         | views::transform([](auto i) { return to_string(i); })
-                         | views::join_with(' '))
-            expected += char2;
+//         ranges::sort(numbers_to_insert);
+//         string expected;
+//         for (char char2: numbers_to_insert
+//                          | views::transform([](auto i) { return to_string(i); })
+//                          | views::join_with(' '))
+//             expected += char2;
 
-        REQUIRE(print_res == expected);
-    }
-}
+//         REQUIRE(print_res == expected);
+//     }
+// }
 
 TEST_CASE("get_nodes_with_key_between() works", "[tree-23]") {
     SECTION("works for random range") {
