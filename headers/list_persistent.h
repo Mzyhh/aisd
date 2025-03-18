@@ -1,12 +1,14 @@
 #ifndef LIST_PERSISTENT_H
 #define LIST_PERSISTENT_H
 
+#define WAS_CHANGED(p) (p)->changelog.version != -1
+
 struct node;
 
 typedef struct {
-    int version;
+    int version; // if version is -1 then update wasn't applied to node so node's changelog is empty
     enum {Data, Pointer} field;
-    union {int data; struct node* next;};
+    union {int data; struct node* next;} new_value;
 } update;
 
 typedef struct node {
@@ -32,7 +34,7 @@ list_persistent create_empty();
 
 void insert_at(list_persistent* list, int index, int value);
 
-void set(list_persistent* list, int version, int index, int value);
+void set(list_persistent* list, int index, int value);
 
 // void delete(list_persistent* list, int index);
 
