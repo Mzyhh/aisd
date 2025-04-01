@@ -2,18 +2,17 @@
 #define LIST_PERSISTENT_H
 
 #define WAS_CHANGED(p) (p)->changelog.version != -1
+#define DEFAULT_HEADS_CAPACITY 4
 
 struct node;
 
 typedef struct {
     int version; // if version is -1 then update wasn't applied to node so node's changelog is empty
-    enum {Data, Pointer} field;
+    enum {DATA, POINTER} field;
     union {int data; struct node* next;} new_value;
 } update;
 
 typedef struct node {
-    // node origin version, pointer to next node, value, rev pointer, changelog
-
     int data;
     struct node* next;
 
@@ -22,11 +21,9 @@ typedef struct node {
 } node;
 
 typedef struct list_persistent {
-    // last version, access pointers array and so on
-    // https://doi.org/10.1016/0022-0000(89)90034-2
-
-    node* head;
-    int version;
+    int heads_capacity;
+    node** heads;
+    int last_version;
 } list_persistent;
 
 
