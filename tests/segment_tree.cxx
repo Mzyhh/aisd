@@ -56,8 +56,8 @@ TEST_CASE("Segment tree works", "[segment-tree]") {
 
         auto structure = build_segment_tree(numbers.data(), n);
 
-        int l = GENERATE_REF(take(iterations_count, random(0, n)));
-        int r = GENERATE_REF(take(iterations_count, random(l, n)));
+        int l = GENERATE_REF(take(iterations_count, random(0, n - 1)));
+        int r = GENERATE_REF(take(iterations_count, random(l, n - 1)));
 
         int actual = get_max(&structure, l, r);
         int expected = get_max_on_interval(numbers, l, r);
@@ -72,14 +72,19 @@ TEST_CASE("Segment tree works", "[segment-tree]") {
 
         auto structure = build_segment_tree(numbers.data(), n);
 
-        int ul = GENERATE_REF(take(iterations_count, random(0, n)));
-        int ur = GENERATE_REF(take(iterations_count, random(ul, n)));
+        int ul = GENERATE_REF(take(iterations_count, random(0, n - 1)));
+        int ur = GENERATE_REF(take(iterations_count, random(ul, n - 1)));
 
         int set_min_value = numbers[ul];
         set_min(&structure, ul, ur, set_min_value);
 
-        int ql = GENERATE_REF(take(iterations_count, random(0, n)));
-        int qr = GENERATE_REF(take(iterations_count, random(ql, n)));
+        for (int i = ul; i <= ur; ++i) {
+            numbers[i] = std::min(numbers[i], set_min_value);
+        }
+
+        int ql = GENERATE_REF(take(iterations_count, random(0, n - 1)));
+        int qr = GENERATE_REF(take(iterations_count, random(ql, n - 1)));
+
         int actual = get_max(&structure, ql, qr);
         int expected = get_max_on_interval(numbers, ql, qr);
 
@@ -93,8 +98,8 @@ TEST_CASE("Segment tree works", "[segment-tree]") {
 
         auto structure = build_segment_tree(numbers.data(), n);
 
-        int ul = GENERATE_REF(take(iterations_count, random(0, n)));
-        int ur = GENERATE_REF(take(iterations_count, random(ul, n)));
+        int ul = GENERATE_REF(take(iterations_count, random(0, n - 1)));
+        int ur = GENERATE_REF(take(iterations_count, random(ul, n - 1)));
 
         for (int i = 0; i < 5; ++i) {
             ul = (106 * ul  + 1283) % 6075;
@@ -104,10 +109,15 @@ TEST_CASE("Segment tree works", "[segment-tree]") {
 
             int set_min_value = numbers[ul];
             set_min(&structure, ul, ur, set_min_value);
+
+            for (int j = ul; j <= ur; ++j) {
+                numbers[j] = std::min(numbers[j], set_min_value);
+            }
         }
 
-        int ql = GENERATE_REF(take(iterations_count, random(0, n)));
-        int qr = GENERATE_REF(take(iterations_count, random(ql, n)));
+        int ql = GENERATE_REF(take(iterations_count, random(0, n - 1)));
+        int qr = GENERATE_REF(take(iterations_count, random(ql, n - 1)));
+
         int actual = get_max(&structure, ql, qr);
         int expected = get_max_on_interval(numbers, ql, qr);
 
