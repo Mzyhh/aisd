@@ -17,7 +17,7 @@ extern "C" {
 static int n_max = 1000;
 static int aka_m_max = 5;
 static double coord_min = -100;
-static double coord_max = -100;
+static double coord_max = 100;
 
 std::uint_least32_t seed = 31123123;
 static std::mt19937 rand_gen(seed);
@@ -45,10 +45,10 @@ TEST_CASE("structure works", "[point-count]") {
         auto structure = build_structure(points.data(), points.size());
 
         // (aka_m_max * aka_m_max * aka_m_max * aka_m_max) rectangles
-        int v1 = GENERATE(take(aka_m_max, random(coord_min, coord_max)));
-        int v2 = GENERATE(take(aka_m_max, random(coord_min, coord_max)));
-        int v3 = GENERATE(take(aka_m_max, random(coord_min, coord_max)));
-        int v4 = GENERATE(take(aka_m_max, random(coord_min, coord_max)));
+        int v1 = GENERATE(take(aka_m_max, random(coord_min, coord_max - 1)));
+        int v2 = GENERATE(take(aka_m_max, random(coord_min, coord_max - 1)));
+        int v3 = GENERATE(take(aka_m_max, random(coord_min, coord_max - 1)));
+        int v4 = GENERATE(take(aka_m_max, random(coord_min, coord_max - 1)));
 
         auto bl = point2d(v1, v2);
         auto tr = point2d(v3, v4);

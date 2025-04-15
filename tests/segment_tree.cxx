@@ -102,8 +102,8 @@ TEST_CASE("Segment tree works", "[segment-tree]") {
         int ur = GENERATE_REF(take(iterations_count, random(ul, n - 1)));
 
         for (int i = 0; i < 5; ++i) {
-            ul = (106 * ul  + 1283) % 6075;
-            ur = (106 * ur  + 1283) % 6075;
+            ul = (106 * ul  + 1283) % 6075 % n;
+            ur = (106 * ur  + 1283) % 6075 % n;
             if (ur < ul)
                 std::swap(ul, ur);
 

@@ -62,8 +62,8 @@ TEST_CASE("structure works", "[distinct-numbers]") {
 
         auto structure = build_structure(numbers.data(), n);
 
-        auto l = GENERATE_REF(take(iterations_count, random(0, n)));
-        auto r = GENERATE_REF(take(iterations_count, random(l + 1, n + 1)));
+        auto l = GENERATE_REF(take(iterations_count, random(0, n - 1)));
+        auto r = GENERATE_REF(take(iterations_count, random(l + 1, n)));
         // std::cout << "n=" << n << ", l=" << l << ", r=" << r << std::endl;
 
         int actual = get_distinct_number_count(&structure, l, r);
