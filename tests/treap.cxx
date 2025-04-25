@@ -138,7 +138,7 @@ TEST_CASE("Treap works", "[treap]") {
         int k = GENERATE_REF(take(iterations_count, random(0, n - 1)));
         int m = GENERATE_REF(take(iterations_count, random(1, n - k)));
 
-        std::vector expected = std::vector(numbers.cbegin() + k, numbers.cend() + k + m);
+        std::vector expected = std::vector(numbers.cbegin() + k, numbers.cbegin() + k + m);
         iterate_out.clear();
         iterate_statistics(&treap, k, m, iterate_callback);
         REQUIRE_THAT(iterate_out, Catch::Matchers::Equals(expected));
