@@ -1,7 +1,7 @@
 #ifndef LIST_PERSISTENT_H
 #define LIST_PERSISTENT_H
 
-#define WAS_CHANGED(p) (p)->changelog.version != -1
+#define WAS_CHANGED(p) ((p)->changelog.version != -1) 
 #define DEFAULT_HEADS_CAPACITY 4
 
 struct node;
