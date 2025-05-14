@@ -106,11 +106,10 @@ TEST_CASE("Leftist heap works", "[leftist-heap]") {
         auto sorted_numbers = std::vector(numbers.begin(), numbers.end());
         std::ranges::sort(sorted_numbers, std::ranges::greater());
 
-        for (auto const [i, num] : std::views::enumerate(sorted_numbers))
+        for (auto const [i, expected] : std::views::enumerate(sorted_numbers))
         {
             auto actual = leftist_get_max(&heap);
             leftist_delete_max(&heap);
-            auto expected = expected[i];
             REQUIRE(actual == expected);
         }
     }
