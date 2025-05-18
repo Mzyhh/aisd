@@ -129,7 +129,7 @@ TEST_CASE("Leftist heap works", "[leftist-heap]") {
             left_numbers.erase(it);
 
             auto actual = leftist_get_max(&heap);
-            auto expected = std::ranges::max_element(numbers);
+            auto expected = std::ranges::max_element(left_numbers);
             REQUIRE(actual == *expected);
         }
     }

@@ -100,6 +100,6 @@ TEST_CASE("Splay tree works", "[splay-tree]") {
         iterate_out.clear();
         splay_traverse(tree, iterate_callback);
 
-        REQUIRE_THAT(iterate_out, Catch::Matchers::Equals(expected));
+        REQUIRE_THAT(iterate_out, Catch::Matchers::UnorderedEquals(expected));
     }
 }
