@@ -1,25 +1,26 @@
 #include <stdio.h>
-#include "list_persistent.h"
+#include "segment_tree.h"
 
-void print_node(int value) {
-    fprintf(stderr, "%d ", value);
+void print_list(const int* ar, const int n) {
+    for (int i = 0; i < n; ++i) 
+        printf("%d ", ar[i]);
+    printf("\n");
 }
 
-int main(void) {
-    list_persistent list = create_empty();
-    insert_at(&list, 0, 1);
-    insert_at(&list, 1, 2);
-    insert_at(&list, 2, 3);
-    insert_at(&list, 0, 4);
-    insert_at(&list, 0, 5);
-    insert_at(&list, 5, 6);
-    set(&list, 4, 100);
-    set(&list, 4, 200);
-    set(&list, 4, 300);
-    for (int i = 0; i <= list.last_version; ++i) {
-        fprintf(stderr, "version %d: ", i);
-        iterate(&list, i, print_node);
-        fprintf(stderr, "\n");
-    }
+int main(int arc, char** argv) {
+    int n = 11;
+    int ar[] = {1, 0, -10, 4, 7, 12, 100, -11, 17, 1, 5};
+    print_list(ar, n);
+    segment_tree t = build_segment_tree(ar, n);
+    print_list(t.array, 2*t.n);
+    int l, r, v, lm, rm;
+    sscanf(argv[1], "%d", &l);
+    sscanf(argv[2], "%d", &r);
+    sscanf(argv[3], "%d", &v);
+    sscanf(argv[4], "%d", &lm);
+    sscanf(argv[5], "%d", &rm);
+    set_min(&t, l, r, v);
+    print_list(t.array, 2*t.n);
+    printf("%d\n", get_max(&t, lm, rm));
     return 0;
 }
