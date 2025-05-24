@@ -105,7 +105,6 @@ target_link_libraries(point_count_test PRIVATE Catch2::Catch2WithMain)
 target_include_directories(point_count_test PRIVATE headers)
 add_test(NAME point_count_test COMMAND point_count_test)
 
-<<<<<<< HEAD
 add_executable(treap_test ${SRC_FILES} ${TREAP_TEST_FILES})
 target_link_libraries(treap_test PRIVATE Catch2::Catch2WithMain)
 target_include_directories(treap_test PRIVATE headers)
@@ -125,14 +124,3 @@ add_executable(splay_tree_test ${SRC_FILES} ${SPLAY_TREE_TEST_FILES})
 target_link_libraries(splay_tree_test PRIVATE Catch2::Catch2WithMain)
 target_include_directories(splay_tree_test PRIVATE headers)
 add_test(NAME splay_tree_test COMMAND splay_tree_test)
-=======
-# add_executable(treap_test ${SRC_FILES} ${TREAP_TEST_FILES})
-# target_link_libraries(treap_test PRIVATE Catch2::Catch2WithMain)
-# target_include_directories(treap_test PRIVATE headers)
-# add_test(NAME treap_test COMMAND treap_test)
-# 
-# add_executable(rope_test ${SRC_FILES} ${ROPE_TEST_FILES})
-# target_link_libraries(rope_test PRIVATE Catch2::Catch2WithMain)
-# target_include_directories(rope_test PRIVATE headers)
-# add_test(NAME rope_test COMMAND rope_test)
->>>>>>> b0e34f2 (Add tests on persistent l1-list)
