@@ -1,5 +1,4 @@
 #include "segment_tree.h"
-#include <math.h>
 #include <memory.h>
 #include <stdlib.h>
 #include <limits.h>
