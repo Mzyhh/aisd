@@ -7,12 +7,6 @@
 #define MAX(a, b) (a) > (b) ? (a) : (b)
 #define MIN(a, b) (a) < (b) ? (a) : (b)
 
-static int closest_bigger_2pow(int n) {
-    if ((n & (n - 1)) == 0)
-        return n;
-    return 1 << (int)(ceil(log2(n)));
-}
-
 int is_left_child(int i) {
     return i % 2 == 0;
 }
@@ -29,7 +23,7 @@ int is_right_child(int i) {
 */
 segment_tree build_segment_tree(const int* numbers, const int n) {
     segment_tree result;
-    result.n = closest_bigger_2pow(n); 
+    result.n = n;
     result.array = malloc(result.n * 2 * sizeof(int));
     for (int i = 0; i < 2 * result.n; ++i)
         result.array[i] = INT_MIN;
