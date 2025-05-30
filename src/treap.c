@@ -5,6 +5,14 @@
 #include "treap.h"
 
 
+static node* find_treap_node(node *root, int k) {
+    while (root && root->key != k) {
+        if (k < root->key) root = root->left;
+        else root = root->right;
+    }
+    return root;
+}
+
 node_ptr_pair split_treap(node *t, int k) {
     node_ptr_pair res = {NULL, NULL};
     if (t == NULL) return res;
@@ -33,6 +41,9 @@ node *merge_treap(node *t1, node *t2) {
 }
 
 void add_number(treap* t, int k) {
+    node *curr = find_treap_node(t->root, k);
+    if (curr) return;
+
     node* new_node = malloc(sizeof(node));
     new_node->key = k;
     new_node->prior = rand();
@@ -40,34 +51,6 @@ void add_number(treap* t, int k) {
     new_node->right = NULL;
     node_ptr_pair p = split_treap(t->root, k);
     t->root = merge_treap(merge_treap(p.first, new_node), p.second);
-
- // if (!t->root) {
- //     t->root = new_node;
- //     return;
- // }
- // node* prev = NULL, *curr = t->root;
- // int lflag = 0;
- // while (curr && curr->prior >= new_node->prior) {
- //     prev = curr;
- //     if (k < curr->key) {
- //         curr = curr->left;
- //         lflag = 1;
- //     } else {
- //         curr = curr->right;
- //         lflag = 0;
- //     }
- // }
- // if (curr) {
- //     node_ptr_pair p = split_treap(curr, k);
- //     new_node->left = p.first;
- //     new_node->right = p.second;
- // }
- // if (prev) {
- //     if (lflag) prev->left = new_node;
- //     else prev->right = new_node;
- // } else {
- //     t->root = new_node;
- // }
 }
 
 treap build_treap(const int* numbers, int n) {
@@ -80,21 +63,13 @@ treap build_treap(const int* numbers, int n) {
 }
 
 void delete_number(treap* treap, int k) {
-    node *prev = NULL, *curr = treap->root;
-    while (curr && curr->key != k) {
-        prev = curr;
-        if (k < curr->key) curr = curr->left;
-        else curr = curr->right;
-    }
+    node *curr = find_treap_node(treap->root, k);
     if (!curr) return;
-    node *merged = merge_treap(curr->left, curr->right);
-    if (prev) {
-        if (prev->right == curr) prev->right = merged;
-        else prev->left = merged;
-    } else {
-        treap->root = merged;
-    }
-    //free(curr);
+
+    node_ptr_pair p1 = split_treap(treap->root, k);
+    node_ptr_pair p2 = split_treap(p1.second, k + 1);
+    treap->root = merge_treap(p1.first, p2.second);
+    free(curr);
 }
 
 static int get_numbers_count_recursive_(node *n, int l, int r) {
