@@ -1,8 +1,18 @@
 #ifndef SEGMENT_TREE_H
 #define SEGMENT_TREE_H
 
+#include <limits.h>
+
+#define NO_DEFERRED INT_MAX
+#define NO_VALUE INT_MIN
+
 typedef struct {
-    int* array; // origin array(crown) + ancestors
+    int value;
+    int deferred;
+} node;
+
+typedef struct {
+    node* array; // origin array(crown) + ancestors
     int n; // half length of array
 } segment_tree;
 

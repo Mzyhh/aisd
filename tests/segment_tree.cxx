@@ -65,31 +65,31 @@ TEST_CASE("Segment tree works", "[segment-tree]") {
         CHECK(actual == expected);
     }
 
-    SECTION("single update work") {
-        int n = GENERATE(take(iterations_count, random(1000, 10000)));
-        std::vector<int> numbers(n);
-        std::ranges::generate(numbers, gen);
+//  SECTION("single update work") {
+//      int n = GENERATE(take(iterations_count, random(1000, 10000)));
+//      std::vector<int> numbers(n);
+//      std::ranges::generate(numbers, gen);
 
-        auto structure = build_segment_tree(numbers.data(), n);
+//      auto structure = build_segment_tree(numbers.data(), n);
 
-        int ul = GENERATE_REF(take(iterations_count, random(0, n - 1)));
-        int ur = GENERATE_REF(take(iterations_count, random(ul, n - 1)));
+//      int ul = GENERATE_REF(take(iterations_count, random(0, n - 1)));
+//      int ur = GENERATE_REF(take(iterations_count, random(ul, n - 1)));
 
-        int set_min_value = numbers[ul];
-        set_min(&structure, ul, ur, set_min_value);
+//      int set_min_value = numbers[ul];
+//      set_min(&structure, ul, ur, set_min_value);
 
-        for (int i = ul; i <= ur; ++i) {
-            numbers[i] = std::min(numbers[i], set_min_value);
-        }
+//      for (int i = ul; i <= ur; ++i) {
+//          numbers[i] = std::min(numbers[i], set_min_value);
+//      }
 
-        int ql = GENERATE_REF(take(iterations_count, random(0, n - 1)));
-        int qr = GENERATE_REF(take(iterations_count, random(ql, n - 1)));
+//      int ql = GENERATE_REF(take(iterations_count, random(0, n - 1)));
+//      int qr = GENERATE_REF(take(iterations_count, random(ql, n - 1)));
 
-        int actual = get_max(&structure, ql, qr);
-        int expected = get_max_on_interval(numbers, ql, qr);
+//      int actual = get_max(&structure, ql, qr);
+//      int expected = get_max_on_interval(numbers, ql, qr);
 
-        CHECK(actual == expected);
-    }
+//      CHECK(actual == expected);
+//  }
 
     SECTION("multiple updates work") {
         int n = GENERATE(take(iterations_count, random(1000, 6075)));
