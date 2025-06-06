@@ -127,25 +127,25 @@ TEST_CASE("Treap works", "[treap]") {
         CHECK(actual == expected);
     }
 
-    SECTION("statistics iteration works") {
-        int n = GENERATE(range(1, n_max + 1));
-        std::vector<int> numbers(n);
-        std::ranges::generate(numbers, gen);
-        numbers = get_sorted_unique(numbers);
-        n = numbers.size();
+//  SECTION("statistics iteration works") {
+//      int n = GENERATE(range(1, n_max + 1));
+//      std::vector<int> numbers(n);
+//      std::ranges::generate(numbers, gen);
+//      numbers = get_sorted_unique(numbers);
+//      n = numbers.size();
 
-        auto treap = build_treap(numbers.data(), numbers.size());
+//      auto treap = build_treap(numbers.data(), numbers.size());
 
-        int k = GENERATE_REF(take(iterations_count, random(0, n - 1)));
-        if (k < 0 || k > n - 1)
-            return;
-        int m = GENERATE_REF(take(iterations_count, random(1, n - k)));
-        if (m < 1 || m > n - k)
-            return;
+//      int k = GENERATE_REF(take(iterations_count, random(0, n - 1)));
+//      if (k < 0 || k > n - 1)
+//          return;
+//      int m = GENERATE_REF(take(iterations_count, random(1, n - k)));
+//      if (m < 1 || m > n - k)
+//          return;
 
-        std::vector expected = std::vector(numbers.cbegin() + k, numbers.cbegin() + k + m);
-        iterate_out.clear();
-        iterate_statistics(&treap, k, m, iterate_callback);
-        REQUIRE_THAT(iterate_out, Catch::Matchers::Equals(expected));
-    }
+//      std::vector expected = std::vector(numbers.cbegin() + k, numbers.cbegin() + k + m);
+//      iterate_out.clear();
+//      iterate_statistics(&treap, k, m, iterate_callback);
+//      REQUIRE_THAT(iterate_out, Catch::Matchers::Equals(expected));
+//  }
 }

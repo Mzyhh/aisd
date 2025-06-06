@@ -124,13 +124,14 @@ TEST_CASE("Leftist heap works", "[leftist-heap]") {
         auto left_numbers = std::vector(numbers.begin(), numbers.end());
         for (auto num: numbers)
         {
+            auto actual = leftist_get_max(&heap);
+            auto expected = std::ranges::max_element(left_numbers);
+            REQUIRE(actual == *expected);
+
             leftist_delete(&heap, num);
             auto it = std::ranges::find(left_numbers, num);
             left_numbers.erase(it);
 
-            auto actual = leftist_get_max(&heap);
-            auto expected = std::ranges::max_element(left_numbers);
-            REQUIRE(actual == *expected);
         }
     }
 }

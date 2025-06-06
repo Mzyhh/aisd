@@ -1,26 +1,31 @@
 #include <stdio.h>
-#include "segment_tree.h"
 
-void print_list(const int* ar, const int n) {
-    for (int i = 0; i < n; ++i) 
-        printf("%d ", ar[i]);
-    printf("\n");
+#include "leftist_heap.h"
+
+void print_tree(node *n) {
+    if (!n) return;
+    printf("(%d, %d) ", n->key, n->dist);
+    print_tree(n->left);
+    print_tree(n->right);
 }
 
 int main(int arc, char** argv) {
-    int n = 11;
-    int ar[] = {1, 0, -10, 4, 7, 12, 100, -11, 17, 1, 5};
-    print_list(ar, n);
-    segment_tree t = build_segment_tree(ar, n);
-    print_list(t.array, 2*t.n);
-    int l, r, v, lm, rm;
-    sscanf(argv[1], "%d", &l);
-    sscanf(argv[2], "%d", &r);
-    sscanf(argv[3], "%d", &v);
-    sscanf(argv[4], "%d", &lm);
-    sscanf(argv[5], "%d", &rm);
-    set_min(&t, l, r, v);
-    print_list(t.array, 2*t.n);
-    printf("%d\n", get_max(&t, lm, rm));
+    int n = 5;
+    int ar[] = {1, 0, -10, 4, 7};
+
+    leftist_heap h = leftist_build(ar, n);
+    printf("%d\n", leftist_get_max(&h));
+
+    leftist_delete(&h, 7);
+    printf("%d\n", leftist_get_max(&h));
+
+    leftist_delete(&h, 0);
+    printf("%d\n", leftist_get_max(&h));
+
+    leftist_delete(&h, 4);
+    printf("%d\n", leftist_get_max(&h));
+
+    leftist_delete(&h, 1);
+    printf("%d\n", leftist_get_max(&h));
     return 0;
 }
